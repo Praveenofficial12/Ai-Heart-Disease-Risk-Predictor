@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Medical Analysis Report</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI", sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,#020617,#0f172a);
+  color:#e5e7eb;
+}
+
+/* HEADER */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 50px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.site-name{
+  font-size:20px;
+  font-weight:600;
+}
+
+.header-actions a{
+  margin-left:12px;
+  padding:9px 22px;
+  border-radius:22px;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.back-btn{
+  border:1px solid #38bdf8;
+  color:#38bdf8;
+}
+
+.back-btn:hover{
+  background:#38bdf8;
+  color:#020617;
+}
+
+.logout-btn{
+  background:#dc2626;
+  color:white;
+}
+
+/* CONTAINER */
+.container{
+  max-width:1150px;
+  margin:35px auto;
+  padding:30px;
+}
+
+/* CARD */
+.card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:30px;
+  margin-bottom:25px;
+}
+
+/* TITLE */
+.title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.risk-badge{
+  padding:10px 18px;
+  border-radius:18px;
+  font-weight:700;
+  color:#020617;
+}
+
+.low{background:#22c55e;}
+.medium{background:#facc15;}
+.high{background:#ef4444;color:white;}
+
+/* PROGRESS */
+.progress{
+  height:16px;
+  background:#020617;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#22c55e,#facc15,#ef4444);
+  transition:width 1.2s ease;
+}
+
+.progress-text{
+  margin-top:10px;
+  font-size:14px;
+  color:#cbd5e1;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:25px;
+  margin-top:25px;
+}
+
+/* GRAPH */
+.bar-row{
+  margin:14px 0;
+}
+
+.bar-label{
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.bar-track{
+  background:#020617;
+  height:12px;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.bar-fill{
+  height:100%;
+  width:0%;
+  background:#38bdf8;
+  transition:width 1s ease;
+}
+
+/* BUTTONS */
+.actions{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-top:30px;
+}
+
+.btn{
+  padding:12px 26px;
+  border-radius:25px;
+  border:1px solid #38bdf8;
+  color:#38bdf8;
+  background:none;
+  cursor:pointer;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,#06b6d4,#3b82f6);
+  color:white;
+  border:none;
+}
+
+/* PRINT (PDF) */
+@media print{
+  .header,.actions{display:none;}
+  body{background:white;color:black;}
+  .card{border:none;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="site-name">AI Heart Disease Risk Predictor</div>
+  <div class="header-actions">
+    <a href="/dashboard" class="back-btn">Dashboard</a>
+    <a href="/logout" class="logout-btn">Sign Out</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- MAIN CARD -->
+<div class="card" data-score="{{ risk_score }}" data-level="{{ risk_level }}">
+  <div class="title">
+    <h2>Medical Analysis Report</h2>
+    <div class="risk-badge
+      {% if risk_level == 'Low Risk' %}low
+      {% elif risk_level == 'Moderate Risk' %}medium
+      {% else %}high{% endif %}">
+      {{ risk_level }}
+    </div>
+  </div>
+
+  <div class="progress">
+    <div class="progress-bar" id="riskBar"></div>
+  </div>
+
+  <div class="progress-text">
+    Overall Risk Score: <strong>{{ risk_score }}</strong>
+  </div>
+
+  <div class="grid">
+
+    <!-- LEFT -->
+    <div class="card">
+      <h3>Risk Factor Contribution</h3>
+
+      {% for key, value in indicators.items() %}
+      <div class="bar-row">
+        <div class="bar-label">{{ key }}</div>
+        <div class="bar-track">
+          <div class="bar-fill" data-value="{{ value }}"></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- RIGHT -->
+    <div class="card">
+      <h3>AI Medical Explanation</h3>
+      <p style="margin-top:12px; line-height:1.7;">
+        {{ explanation | e }}
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<!-- RECOMMENDATIONS -->
+<div class="card">
+  <h3>Clinical Recommendations</h3>
+  <ul style="margin-top:10px;">
+    {% for rec in recommendations %}
+      <li style="margin-bottom:6px;">{{ rec }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<!-- ACTIONS -->
+<div class="actions">
+  <button class="btn btn-primary" onclick="speak()">🔊 Voice</button>
+  <button class="btn" onclick="downloadPDF()">⬇ Download PDF</button>
+  <a href="/upload-report" class="btn">🔄 Re-Analyze</a>
+  <a href="/history" class="btn">📜 History</a>
+</div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const card = document.querySelector("[data-score]");
+  const score = Number(card.dataset.score || 0);
+
+  const percent = Math.min(score, 200) / 200 * 100;
+  document.getElementById("riskBar").style.width = percent + "%";
+
+  document.querySelectorAll(".bar-fill").forEach(bar => {
+    const val = Math.abs(Number(bar.dataset.value || 0));
+    bar.style.width = Math.min(val, 100) + "%";
+  });
+});
+
+function speak(){
+  const level = document.querySelector("[data-level]").dataset.level;
+  speechSynthesis.speak(
+    new SpeechSynthesisUtterance("Your heart disease risk level is " + level)
+  );
+}
+
+function downloadPDF(){
+  window.print();
+}
+</script>
+
+</body>
+</html>

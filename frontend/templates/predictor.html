@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Heart Risk Predictor</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI", sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#0f172a,#020617);
+  color:white;
+}
+
+/* HEADER */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 50px;
+}
+
+.site-name{
+  font-size:20px;
+  font-weight:600;
+}
+
+/* HEADER BUTTONS */
+.header-actions a{
+  text-decoration:none;
+  margin-left:12px;
+  padding:10px 22px;
+  border-radius:25px;
+  font-size:14px;
+  transition:.3s;
+}
+
+.back-btn{
+  border:1px solid #38bdf8;
+  color:#38bdf8;
+}
+
+.back-btn:hover{
+  background:#38bdf8;
+  color:#020617;
+}
+
+.logout-btn{
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+  color:white;
+}
+
+/* HEART */
+.heart-container{
+  text-align:center;
+  margin-top:10px;
+}
+
+.heart-logo{
+  font-size:50px;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.2);}
+  100%{transform:scale(1);}
+}
+
+/* CARD */
+.glass-card{
+  max-width:1100px;
+  margin:30px auto 60px;
+  padding:40px;
+  background:rgba(255,255,255,.06);
+  border-radius:25px;
+  backdrop-filter:blur(12px);
+}
+
+.glass-card h2{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+/* FORM GRID */
+form{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px 20px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+}
+
+label{
+  font-size:13px;
+  color:#cbd5e1;
+  margin-bottom:6px;
+}
+
+input, select{
+  height:46px;
+  padding:0 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);
+  color:white;
+}
+
+input:focus, select:focus{
+  border-color:#38bdf8;
+}
+
+select option{
+  color:black;
+}
+
+/* SUBMIT */
+.submit-wrap{
+  grid-column:1/-1;
+  text-align:center;
+}
+
+button{
+  height:52px;
+  padding:0 60px;
+  border-radius:30px;
+  border:none;
+  background:linear-gradient(135deg,#06b6d4,#3b82f6);
+  color:white;
+  font-size:17px;
+  cursor:pointer;
+}
+
+.note{
+  grid-column:1/-1;
+  text-align:center;
+  font-size:13px;
+  color:#94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="site-name">AI Heart Disease Risk Predictor</div>
+
+  <div class="header-actions">
+    <a href="{{ url_for('dashboard') }}" class="back-btn">← Dashboard</a>
+    <a href="#" class="logout-btn" onclick="confirmLogout()">Sign Out</a>
+  </div>
+</div>
+
+<!-- HEART -->
+<div class="heart-container">
+  <div class="heart-logo">❤️</div>
+</div>
+
+<!-- CARD -->
+<div class="glass-card">
+
+<h2>Heart Risk Predictor</h2>
+
+<form action="{{ url_for('predict') }}" method="post">
+
+  <div class="field"><label>Age *</label><input type="number" name="age" required></div>
+
+  <div class="field">
+    <label>Gender *</label>
+    <select name="gender" required>
+      <option value="">Select</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  <div class="field"><label>Diabetes *</label><select name="diabetes" required><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+  <div class="field"><label>Hypertension *</label><select name="hypertension" required><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+  <div class="field"><label>Obesity *</label><select name="obesity" required><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+
+  <div class="field"><label>Smoking</label><select name="smoking"><option></option><option>Yes</option><option>No</option></select></div>
+  <div class="field"><label>Alcohol</label><select name="alcohol"><option></option><option>Yes</option><option>No</option></select></div>
+  <div class="field"><label>Physical Activity</label><select name="physical_activity"><option></option><option>Low</option><option>Moderate</option><option>High</option></select></div>
+
+  <div class="field"><label>Cholesterol</label><input type="number" name="cholesterol"></div>
+  <div class="field"><label>Triglyceride</label><input type="number" name="triglyceride"></div>
+  <div class="field"><label>LDL</label><input type="number" name="ldl"></div>
+  <div class="field"><label>HDL</label><input type="number" name="hdl"></div>
+
+  <div class="field"><label>Systolic BP</label><input type="number" name="systolic_bp"></div>
+  <div class="field"><label>Diastolic BP</label><input type="number" name="diastolic_bp"></div>
+
+  <div class="submit-wrap">
+    <button type="submit">Predict Risk</button>
+  </div>
+
+  <div class="note">
+    * Required fields only · Optional fields improve accuracy
+  </div>
+
+</form>
+</div>
+
+<!-- JS -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<script>
+function confirmLogout(){
+  if(confirm("Are you sure you want to sign out?")){
+    window.location.href = "{{ url_for('logout') }}";
+  }
+}
+</script>
+
+</body>
+</html>

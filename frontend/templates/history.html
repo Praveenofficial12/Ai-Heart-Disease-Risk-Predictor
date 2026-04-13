@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prediction History</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI",sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#0f172a,#020617);
+  color:#e5e7eb;
+  padding:40px 20px;
+}
+
+/* HEADER */
+.header{
+  max-width:1100px;
+  margin:0 auto 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.header h2{
+  font-size:28px;
+}
+
+.back-btn{
+  padding:10px 18px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.05);
+  color:white;
+  text-decoration:none;
+}
+
+.back-btn:hover{
+  background:#38bdf8;
+  color:#020617;
+}
+
+/* GRID */
+.history-grid{
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:22px;
+}
+
+/* CARD */
+.history-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:22px;
+  padding:22px;
+  backdrop-filter:blur(18px);
+  transition:.3s;
+  animation:fadeUp .6s ease;
+}
+
+.history-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 0 30px rgba(59,130,246,.25);
+}
+
+/* CARD HEADER */
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.badge{
+  padding:6px 14px;
+  border-radius:14px;
+  font-size:13px;
+  font-weight:700;
+  text-transform:uppercase;
+}
+
+.low{ background:#22c55e; color:#020617; }
+.medium{ background:#facc15; color:#020617; }
+.high{ background:#ef4444; color:white; }
+
+/* META */
+.meta{
+  font-size:13px;
+  color:#cbd5f5;
+  margin-bottom:10px;
+}
+
+/* DETAILS */
+.details{
+  font-size:14px;
+  line-height:1.6;
+}
+
+.details strong{
+  color:#38bdf8;
+}
+
+/* EMPTY STATE */
+.empty{
+  text-align:center;
+  opacity:.8;
+  margin-top:80px;
+  font-size:18px;
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(20px)}
+  to{opacity:1; transform:translateY(0)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h2>📜 Prediction History</h2>
+  <a href="/dashboard" class="back-btn">← Dashboard</a>
+</div>
+
+<!-- HISTORY GRID -->
+<div class="history-grid">
+
+{% if records|length == 0 %}
+  <div class="empty">
+    No prediction history available yet.
+  </div>
+{% endif %}
+
+{% for r in records %}
+<div class="history-card">
+
+  <div class="card-header">
+    <div class="badge
+      {% if r.result.risk_level == 'Low' %}low
+      {% elif r.result.risk_level == 'Moderate' %}medium
+      {% else %}high{% endif %}">
+      {{ r.result.risk_level }}
+    </div>
+
+    <span class="meta date" data-ts="{{ r.timestamp }}"></span>
+  </div>
+
+  <div class="meta">
+    Source:
+    {% if r.type == "manual_prediction" %}
+      Manual Input
+    {% else %}
+      Uploaded Report
+    {% endif %}
+  </div>
+
+  <div class="details">
+    <p><strong>Risk Score:</strong> {{ r.result.risk_score }}</p>
+    <p><strong>Age:</strong> {{ r.data.age }}</p>
+    <p><strong>Gender:</strong> {{ r.data.gender }}</p>
+    <p><strong>Cholesterol:</strong> {{ r.data.cholesterol }}</p>
+  </div>
+
+</div>
+{% endfor %}
+
+</div>
+
+<!-- JS -->
+<script>
+document.querySelectorAll(".date").forEach(el=>{
+  const ts = Number(el.dataset.ts) * 1000;
+  const d = new Date(ts);
+  el.textContent = d.toLocaleString();
+});
+</script>
+
+</body>
+</html>
