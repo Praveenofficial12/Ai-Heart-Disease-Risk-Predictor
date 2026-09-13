@@ -24,6 +24,7 @@ app = Flask(
 )
 
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback_secret_key_123")
+app.config["PREFERRED_URL_SCHEME"] = "https"
 
 # ---------------- MAIL CONFIG ----------------
 app.config.update(
