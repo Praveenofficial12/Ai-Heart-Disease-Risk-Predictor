@@ -1,186 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Upload Medical Report</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Medical Report | CardioAI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      min-height: 100vh;
+    }
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Segoe UI",sans-serif;
-}
+    .page-wrapper {
+      padding: 110px 24px 60px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
 
-body{
-  min-height:100vh;
-  background:radial-gradient(circle at top,#0f172a,#020617);
-  color:white;
-}
+    .page-center {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 28px;
+      align-items: start;
+    }
 
-/* HEADER */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 50px;
-}
+    /* UPLOAD CARD */
+    .upload-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+    }
 
-.site-name{
-  font-size:20px;
-  font-weight:600;
-}
+    .upload-card-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
 
-/* BUTTONS */
-.header-actions a{
-  text-decoration:none;
-  margin-left:12px;
-  padding:10px 22px;
-  border-radius:25px;
-  font-size:14px;
-  transition:.3s;
-}
+    .upload-icon-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(59, 130, 246, 0.1));
+      border: 2px solid rgba(14, 165, 233, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 20px;
+    }
 
-.back-btn{
-  border:1px solid #38bdf8;
-  color:#38bdf8;
-}
+    .upload-card-header h2 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
 
-.back-btn:hover{
-  background:#38bdf8;
-  color:#020617;
-  box-shadow:0 0 15px rgba(56,189,248,.6);
-}
+    .upload-card-header p {
+      color: var(--clr-muted);
+      font-size: 14px;
+    }
 
-.logout-btn{
-  background:linear-gradient(135deg,#ef4444,#dc2626);
-  color:white;
-}
+    /* DROP ZONE */
+    .drop-zone {
+      border: 2px dashed var(--clr-border2);
+      border-radius: var(--radius-lg);
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: rgba(255, 255, 255, 0.02);
+      margin-bottom: 20px;
+    }
 
-.logout-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 20px rgba(239,68,68,.7);
-}
+    .drop-zone:hover,
+    .drop-zone.dragging {
+      border-color: var(--clr-primary);
+      background: rgba(14, 165, 233, 0.06);
+    }
 
-/* LOGO */
-.logo{
-  text-align:center;
-  margin:20px 0;
-  font-size:52px;
-  animation:pulse 1.5s infinite;
-}
+    .drop-icon {
+      font-size: 44px;
+      margin-bottom: 12px;
+    }
 
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.2)}
-  100%{transform:scale(1)}
-}
+    .drop-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
 
-/* CARD */
-.card{
-  max-width:520px;
-  margin:30px auto;
-  padding:40px;
-  background:rgba(255,255,255,.06);
-  border-radius:25px;
-  backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,.15);
-  text-align:center;
-}
+    .drop-sub {
+      font-size: 13px;
+      color: var(--clr-muted);
+      margin-bottom: 18px;
+    }
 
-.card h2{
-  margin-bottom:25px;
-}
+    .browse-btn {
+      display: inline-block;
+      padding: 10px 24px;
+      background: rgba(14, 165, 233, 0.1);
+      border: 1px solid rgba(14, 165, 233, 0.25);
+      border-radius: var(--radius-full);
+      color: var(--clr-primary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
 
-/* FILE INPUT */
-input[type="file"]{
-  width:100%;
-  padding:16px;
-  border-radius:16px;
-  border:1px dashed rgba(255,255,255,.3);
-  background:rgba(255,255,255,.08);
-  color:white;
-  cursor:pointer;
-}
+    .browse-btn:hover {
+      background: rgba(14, 165, 233, 0.18);
+    }
 
-input[type="file"]::file-selector-button{
-  padding:10px 20px;
-  border-radius:20px;
-  border:none;
-  background:#38bdf8;
-  color:#020617;
-  cursor:pointer;
-}
+    #fileInput {
+      display: none;
+    }
 
-/* SUBMIT */
-button{
-  margin-top:25px;
-  padding:14px 50px;
-  border-radius:30px;
-  border:none;
-  background:linear-gradient(135deg,#06b6d4,#3b82f6);
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-  transition:.3s;
-}
+    /* FILE SELECTED */
+    .file-selected {
+      display: none;
+      align-items: center;
+      gap: 14px;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
 
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 25px rgba(59,130,246,.7);
-}
+    .file-selected.show {
+      display: flex;
+    }
 
-.note{
-  font-size:13px;
-  color:#94a3b8;
-  margin-top:15px;
-}
-</style>
+    .file-selected-icon {
+      font-size: 22px;
+    }
+
+    .file-selected-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4ade80;
+    }
+
+    .file-selected-size {
+      font-size: 12px;
+      color: var(--clr-muted);
+    }
+
+    .formats {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .format-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-full);
+      padding: 4px 12px;
+      font-size: 12px;
+      color: var(--clr-muted);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: var(--gradient-primary);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--transition);
+      box-shadow: var(--shadow-btn);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(14, 165, 233, 0.5);
+    }
+
+    /* INFO SIDEBAR */
+    .info-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    .info-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .info-step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+
+    .info-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .info-step strong {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .info-step span {
+      font-size: 13px;
+      color: var(--clr-muted);
+    }
+
+    @media (max-width: 800px) {
+      .page-center {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="site-name">AI Heart Disease Risk Predictor</div>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="navbar-brand" href="/dashboard">
+      <div class="brand-icon heartbeat">❤️</div>
+      <span class="brand-text">Cardio<span>AI</span></span>
+    </a>
+    <div class="navbar-actions">
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline btn-sm">← Dashboard</a>
+      <a href="{{ url_for('logout') }}" onclick="return confirm('Sign out?')" class="btn btn-danger btn-sm">Sign Out</a>
+    </div>
+  </nav>
 
-  <div class="header-actions">
-    <a href="/dashboard" class="back-btn">← Dashboard</a>
-    <a href="#" class="logout-btn" onclick="confirmLogout()">Sign Out</a>
+  <div class="page-wrapper">
+    <div class="page-center">
+
+      <!-- UPLOAD CARD -->
+      <div class="upload-card anim-fade-up">
+
+        <div class="upload-card-header">
+          <div class="upload-icon-circle">📄</div>
+          <h2>Upload Medical Report</h2>
+          <p>Upload your existing cardiac report for AI-powered parameter extraction and risk analysis</p>
+        </div>
+
+        <form action="{{ url_for('upload_report') }}" method="post" enctype="multipart/form-data" id="uploadForm">
+
+          <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <div class="drop-icon">📤</div>
+            <div class="drop-title">Drag & drop your file here</div>
+            <div class="drop-sub">or click to browse from your computer</div>
+            <div class="browse-btn">Browse Files</div>
+          </div>
+
+          <input type="file" id="fileInput" name="report" accept=".pdf,.jpg,.jpeg,.png" required>
+
+          <div class="file-selected" id="fileSelected">
+            <span class="file-selected-icon">✅</span>
+            <div>
+              <div class="file-selected-name" id="fileName">File selected</div>
+              <div class="file-selected-size" id="fileSize"></div>
+            </div>
+          </div>
+
+          <div class="formats">
+            <span class="format-chip">📄 PDF</span>
+            <span class="format-chip">🖼 JPG</span>
+            <span class="format-chip">🖼 JPEG</span>
+            <span class="format-chip">🖼 PNG</span>
+          </div>
+
+          <hr class="divider" style="margin:24px 0;">
+
+          <button type="submit" class="submit-btn">🔍 Analyse Report</button>
+
+        </form>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="info-card anim-fade-up anim-delay-1">
+        <h4>📋 How Report Upload Works</h4>
+
+        <div class="info-step">
+          <div class="info-step-num">1</div>
+          <div>
+            <strong>Upload your report</strong>
+            <span>Accepted formats: PDF blood reports or JPG/PNG images of lab results.</span>
+          </div>
+        </div>
+        <div class="info-step">
+          <div class="info-step-num">2</div>
+          <div>
+            <strong>AI Parameter Extraction</strong>
+            <span>Our AI reads and extracts cardiac parameters like cholesterol, blood pressure, and lipids.</span>
+          </div>
+        </div>
+        <div class="info-step">
+          <div class="info-step-num">3</div>
+          <div>
+            <strong>Risk Analysis</strong>
+            <span>The extracted values are scored against clinical guidelines for cardiovascular risk.</span>
+          </div>
+        </div>
+        <div class="info-step">
+          <div class="info-step-num">4</div>
+          <div>
+            <strong>Detailed Report Generated</strong>
+            <span>Receive a complete analysis with AI explanation and personalized recommendations.</span>
+          </div>
+        </div>
+
+        <div class="info-callout" style="margin-top:20px; margin-bottom:0;">
+          <strong>Prefer manual entry?</strong> Use the <a href="{{ url_for('manual_predict') }}"
+            style="color:var(--clr-primary);">Manual Risk Assessment</a> to enter values directly.
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
 
-<!-- LOGO -->
-<div class="logo">❤️</div>
+  <script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
 
-<!-- CARD -->
-<div class="card">
-  <h2>Upload Medical Report</h2>
+    fileInput.addEventListener('change', function () {
+      if (this.files[0]) showFile(this.files[0]);
+    });
 
-  <form action="/upload-report" method="post" enctype="multipart/form-data">
-    <input 
-      type="file" 
-      name="report"
-      accept=".pdf,.jpg,.jpeg,.png"
-      required
-    >
-    <button type="submit">Upload Report</button>
-  </form>
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragging'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragging'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('dragging');
+      const file = e.dataTransfer.files[0];
+      if (file) { fileInput.files = e.dataTransfer.files; showFile(file); }
+    });
 
-  <div class="note">
-    Allowed formats: PDF, JPG, JPEG, PNG
-  </div>
-</div>
-
-<script src="/static/js/main.js"></script>
-
-<script>
-function confirmLogout(){
-  if(confirm("Are you sure you want to sign out?")){
-    window.location.href="/logout";
-  }
-}
-</script>
-
+    function showFile(file) {
+      document.getElementById('fileName').textContent = file.name;
+      document.getElementById('fileSize').textContent = (file.size / 1024).toFixed(1) + ' KB';
+      document.getElementById('fileSelected').classList.add('show');
+    }
+  </script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
+
 </html>

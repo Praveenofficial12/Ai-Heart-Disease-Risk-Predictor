@@ -1,284 +1,442 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Medical Analysis Report</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardiovascular Risk Report | CardioAI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      min-height: 100vh;
+    }
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Segoe UI", sans-serif;
-}
+    .page-wrapper {
+      padding: 90px 24px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-body{
-  min-height:100vh;
-  background:linear-gradient(135deg,#020617,#0f172a);
-  color:#e5e7eb;
-}
+    /* REPORT HEADER */
+    .report-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
 
-/* HEADER */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:22px 50px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
+    .report-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
 
-.site-name{
-  font-size:20px;
-  font-weight:600;
-}
+    .report-meta {
+      font-size: 13px;
+      color: var(--clr-muted);
+      margin-top: 4px;
+    }
 
-.header-actions a{
-  margin-left:12px;
-  padding:9px 22px;
-  border-radius:22px;
-  text-decoration:none;
-  font-size:14px;
-}
+    /* RISK OVERVIEW CARD */
+    .risk-overview {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
 
-.back-btn{
-  border:1px solid #38bdf8;
-  color:#38bdf8;
-}
+    .risk-overview::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-primary);
+    }
 
-.back-btn:hover{
-  background:#38bdf8;
-  color:#020617;
-}
+    .risk-overview-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
 
-.logout-btn{
-  background:#dc2626;
-  color:white;
-}
+    .risk-overview-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
 
-/* CONTAINER */
-.container{
-  max-width:1150px;
-  margin:35px auto;
-  padding:30px;
-}
+    .risk-score-big {
+      text-align: right;
+    }
 
-/* CARD */
-.card{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  padding:30px;
-  margin-bottom:25px;
-}
+    .risk-score-num {
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-/* TITLE */
-.title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+    .risk-score-label {
+      font-size: 13px;
+      color: var(--clr-muted);
+      margin-top: 4px;
+    }
 
-.risk-badge{
-  padding:10px 18px;
-  border-radius:18px;
-  font-weight:700;
-  color:#020617;
-}
+    .risk-level-text {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
 
-.low{background:#22c55e;}
-.medium{background:#facc15;}
-.high{background:#ef4444;color:white;}
+    .level-low {
+      color: #4ade80;
+    }
 
-/* PROGRESS */
-.progress{
-  height:16px;
-  background:#020617;
-  border-radius:12px;
-  overflow:hidden;
-}
+    .level-medium {
+      color: #fbbf24;
+    }
 
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#22c55e,#facc15,#ef4444);
-  transition:width 1.2s ease;
-}
+    .level-high {
+      color: #f87171;
+    }
 
-.progress-text{
-  margin-top:10px;
-  font-size:14px;
-  color:#cbd5e1;
-}
+    /* GRID */
+    .report-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
 
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:25px;
-  margin-top:25px;
-}
+    /* FACTOR ANALYSIS */
+    .factor-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+    }
 
-/* GRAPH */
-.bar-row{
-  margin:14px 0;
-}
+    .factor-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
 
-.bar-label{
-  font-size:13px;
-  margin-bottom:6px;
-}
+    /* AI EXPLANATION */
+    .explanation-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+    }
 
-.bar-track{
-  background:#020617;
-  height:12px;
-  border-radius:10px;
-  overflow:hidden;
-}
+    .explanation-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-.bar-fill{
-  height:100%;
-  width:0%;
-  background:#38bdf8;
-  transition:width 1s ease;
-}
+    .ai-text {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--clr-muted);
+    }
 
-/* BUTTONS */
-.actions{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  margin-top:30px;
-}
+    /* RECOMMENDATIONS */
+    .reco-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
 
-.btn{
-  padding:12px 26px;
-  border-radius:25px;
-  border:1px solid #38bdf8;
-  color:#38bdf8;
-  background:none;
-  cursor:pointer;
-}
+    .reco-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
 
-.btn-primary{
-  background:linear-gradient(135deg,#06b6d4,#3b82f6);
-  color:white;
-  border:none;
-}
+    .reco-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
 
-/* PRINT (PDF) */
-@media print{
-  .header,.actions{display:none;}
-  body{background:white;color:black;}
-  .card{border:none;}
-}
-</style>
+    .reco-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .reco-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .reco-dot-low {
+      background: rgba(34, 197, 94, 0.15);
+    }
+
+    .reco-dot-medium {
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    .reco-dot-high {
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    .reco-item p {
+      font-size: 14px;
+      color: var(--clr-muted);
+      line-height: 1.6;
+    }
+
+    /* ACTION BAR */
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* PRINT */
+    @media print {
+
+      .navbar,
+      .action-bar,
+      .no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      .page-wrapper {
+        padding: 0;
+      }
+
+      .risk-overview,
+      .factor-card,
+      .explanation-card,
+      .reco-card {
+        border: 1px solid #ddd !important;
+        background: white !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .report-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="site-name">AI Heart Disease Risk Predictor</div>
-  <div class="header-actions">
-    <a href="/dashboard" class="back-btn">Dashboard</a>
-    <a href="/logout" class="logout-btn">Sign Out</a>
-  </div>
-</div>
-
-<div class="container">
-
-<!-- MAIN CARD -->
-<div class="card" data-score="{{ risk_score }}" data-level="{{ risk_level }}">
-  <div class="title">
-    <h2>Medical Analysis Report</h2>
-    <div class="risk-badge
-      {% if risk_level == 'Low Risk' %}low
-      {% elif risk_level == 'Moderate Risk' %}medium
-      {% else %}high{% endif %}">
-      {{ risk_level }}
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="navbar-brand" href="/dashboard">
+      <div class="brand-icon heartbeat">❤️</div>
+      <span class="brand-text">Cardio<span>AI</span></span>
+    </a>
+    <div class="navbar-actions">
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline btn-sm">← Dashboard</a>
+      <a href="{{ url_for('logout') }}" onclick="return confirm('Sign out?')" class="btn btn-danger btn-sm">Sign Out</a>
     </div>
-  </div>
+  </nav>
 
-  <div class="progress">
-    <div class="progress-bar" id="riskBar"></div>
-  </div>
+  <div class="page-wrapper">
 
-  <div class="progress-text">
-    Overall Risk Score: <strong>{{ risk_score }}</strong>
-  </div>
-
-  <div class="grid">
-
-    <!-- LEFT -->
-    <div class="card">
-      <h3>Risk Factor Contribution</h3>
-
-      {% for key, value in indicators.items() %}
-      <div class="bar-row">
-        <div class="bar-label">{{ key }}</div>
-        <div class="bar-track">
-          <div class="bar-fill" data-value="{{ value }}"></div>
+    <!-- REPORT HEADER -->
+    <div class="report-header">
+      <div>
+        <div class="report-title">🏥 Cardiovascular Risk Report</div>
+        <div class="report-meta">
+          Source: <strong>{{ source }}</strong> &nbsp;·&nbsp;
+          Generated: <strong id="reportDate"></strong>
         </div>
       </div>
-      {% endfor %}
+      <div class="flex gap-sm">
+        <span class="risk-badge
+        {% if risk_level == 'Low Risk' %}risk-low
+        {% elif risk_level == 'Moderate Risk' %}risk-medium
+        {% else %}risk-high{% endif %}">
+          {% if risk_level == 'Low Risk' %}🟢{% elif risk_level == 'Moderate Risk' %}🟡{% else %}🔴{% endif %}
+          {{ risk_level }}
+        </span>
+      </div>
     </div>
 
-    <!-- RIGHT -->
-    <div class="card">
-      <h3>AI Medical Explanation</h3>
-      <p style="margin-top:12px; line-height:1.7;">
-        {{ explanation | e }}
+    <!-- RISK OVERVIEW -->
+    <div class="risk-overview" data-score="{{ risk_score }}" data-level="{{ risk_level }}">
+      <div class="risk-overview-top">
+        <div>
+          <div class="risk-level-text
+          {% if risk_level == 'Low Risk' %}level-low
+          {% elif risk_level == 'Moderate Risk' %}level-medium
+          {% else %}level-high{% endif %}">
+            {{ risk_level }}
+          </div>
+          <p class="text-muted" style="font-size:14px; max-width:480px;">
+            AI-generated cardiovascular risk assessment based on your clinical parameters and lifestyle factors.
+          </p>
+        </div>
+        <div class="risk-score-big">
+          <div class="risk-score-num">{{ risk_percent }}%</div>
+          <div class="risk-score-label">Risk Percentile</div>
+        </div>
+      </div>
+
+      <div class="risk-meter">
+        <div class="risk-fill" id="riskBar"></div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin-top:10px;">
+        <span style="font-size:12px; color:var(--clr-muted);">0 — Low</span>
+        <span style="font-size:13px; color:var(--clr-muted);">Raw Score: <strong style="color:var(--clr-text);">{{
+            risk_score }}</strong> / 200</span>
+        <span style="font-size:12px; color:var(--clr-muted);">High — 200</span>
+      </div>
+    </div>
+
+    <!-- REPORT GRID -->
+    <div class="report-grid">
+
+      <!-- FACTOR ANALYSIS -->
+      <div class="factor-card">
+        <h3>📊 Risk Factor Contribution</h3>
+        {% for key, value in indicators.items() %}
+        <div class="bar-row">
+          <div class="bar-header">
+            <span class="bar-factor">{{ key }}</span>
+            <span class="bar-value">+{{ value }}</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" data-value="{{ value }}"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- AI EXPLANATION -->
+      <div class="explanation-card">
+        <h3>🤖 AI Medical Explanation</h3>
+        <div class="info-callout">
+          <strong>About this analysis:</strong> This explanation is generated by our AI model based on your submitted
+          clinical parameters. It is for informational purposes only.
+        </div>
+        <p class="ai-text">{{ explanation | e }}</p>
+      </div>
+
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="reco-card">
+      <h3>
+        💊 Clinical Recommendations
+        <span class="risk-badge
+        {% if risk_level == 'Low Risk' %}risk-low
+        {% elif risk_level == 'Moderate Risk' %}risk-medium
+        {% else %}risk-high{% endif %}" style="font-size:12px; margin-left:8px;">
+          {{ risk_level }}
+        </span>
+      </h3>
+      <div class="reco-grid">
+        {% for rec in recommendations %}
+        <div class="reco-item">
+          <div class="reco-dot
+          {% if risk_level == 'Low Risk' %}reco-dot-low
+          {% elif risk_level == 'Moderate Risk' %}reco-dot-medium
+          {% else %}reco-dot-high{% endif %}">
+            {% if risk_level == 'Low Risk' %}💚{% elif risk_level == 'Moderate Risk' %}🟡{% else %}❤️{% endif %}
+          </div>
+          <p>{{ rec }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      <p style="font-size:12px; color:var(--clr-subtle); margin-top:20px;">
+        ⚠️ These recommendations are AI-generated for educational purposes. Always consult a qualified cardiologist
+        before making medical decisions.
       </p>
     </div>
 
+    <!-- ACTION BAR -->
+    <div class="action-bar no-print">
+      <button class="btn btn-primary" onclick="speak()">🔊 Voice Summary</button>
+      <button class="btn btn-outline" onclick="downloadPDF()">⬇ Download PDF</button>
+      <a href="{{ url_for('manual_predict') }}" class="btn btn-ghost">🔄 New Assessment</a>
+      <a href="{{ url_for('history') }}" class="btn btn-ghost">📜 View History</a>
+    </div>
+
   </div>
-</div>
 
-<!-- RECOMMENDATIONS -->
-<div class="card">
-  <h3>Clinical Recommendations</h3>
-  <ul style="margin-top:10px;">
-    {% for rec in recommendations %}
-      <li style="margin-bottom:6px;">{{ rec }}</li>
-    {% endfor %}
-  </ul>
-</div>
+  <script>
+    document.getElementById('reportDate').textContent = new Date().toLocaleDateString('en-IN', {
+      year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
 
-<!-- ACTIONS -->
-<div class="actions">
-  <button class="btn btn-primary" onclick="speak()">🔊 Voice</button>
-  <button class="btn" onclick="downloadPDF()">⬇ Download PDF</button>
-  <a href="/upload-report" class="btn">🔄 Re-Analyze</a>
-  <a href="/history" class="btn">📜 History</a>
-</div>
+    document.addEventListener('DOMContentLoaded', () => {
+      const card = document.querySelector('[data-score]');
+      const score = Number(card.dataset.score || 0);
+      const pct = Math.min(score, 200) / 200 * 100;
+      setTimeout(() => {
+        document.getElementById('riskBar').style.width = pct + '%';
+      }, 300);
 
-</div>
+      document.querySelectorAll('.bar-fill').forEach(bar => {
+        const val = Math.abs(Number(bar.dataset.value || 0));
+        setTimeout(() => {
+          bar.style.width = Math.min(val, 100) + '%';
+        }, 500);
+      });
+    });
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const card = document.querySelector("[data-score]");
-  const score = Number(card.dataset.score || 0);
+    function speak() {
+      const level = document.querySelector('[data-level]').dataset.level;
+      const pct = '{{ risk_percent }}';
+      const msg = `Your cardiovascular risk assessment result is ${level}, with a risk score of ${pct} percent. Please consult your cardiologist for further evaluation.`;
+      const utt = new SpeechSynthesisUtterance(msg);
+      utt.rate = 0.9; utt.pitch = 1;
+      speechSynthesis.speak(utt);
+    }
 
-  const percent = Math.min(score, 200) / 200 * 100;
-  document.getElementById("riskBar").style.width = percent + "%";
+    function downloadPDF() { window.print(); }
+  </script>
 
-  document.querySelectorAll(".bar-fill").forEach(bar => {
-    const val = Math.abs(Number(bar.dataset.value || 0));
-    bar.style.width = Math.min(val, 100) + "%";
-  });
-});
-
-function speak(){
-  const level = document.querySelector("[data-level]").dataset.level;
-  speechSynthesis.speak(
-    new SpeechSynthesisUtterance("Your heart disease risk level is " + level)
-  );
-}
-
-function downloadPDF(){
-  window.print();
-}
-</script>
-
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
+
 </html>

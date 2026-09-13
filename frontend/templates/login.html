@@ -3,237 +3,210 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Login | AI Heart Disease Detector</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | CardioAI — Heart Disease Risk Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", sans-serif;
-    }
-
     body {
       height: 100vh;
       display: flex;
-      background: #0f172a;
+      overflow: hidden;
     }
 
     /* LEFT PANEL */
-    .left {
-      width: 50%;
+    .auth-left {
+      width: 48%;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at top left, #1e293b, #020617);
+      background: var(--clr-surface);
+      padding: 40px;
+      overflow-y: auto;
     }
 
-    /* GLASS CARD */
-    .card {
+    .auth-box {
       width: 100%;
-      max-width: 380px;
-      padding: 45px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 0 40px rgba(59, 130, 246, .25);
-      border: 1px solid rgba(255, 255, 255, .15);
+      max-width: 400px;
     }
 
-    /* LOGO */
-    .logo {
-      font-size: 50px;
-      text-align: center;
-      margin-bottom: 15px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1)
-      }
-
-      50% {
-        transform: scale(1.1)
-      }
-
-      100% {
-        transform: scale(1)
-      }
-    }
-
-    /* TITLE */
-    h1 {
-      text-align: center;
-      color: white;
-      font-size: 22px;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #cbd5f5;
-      font-size: 14px;
-      margin: 10px 0 30px;
-    }
-
-    /* FORM */
-    form {
+    .auth-logo {
       display: flex;
-      flex-direction: column;
       align-items: center;
-    }
-
-    /* INPUT GROUP */
-    .field {
-      position: relative;
-      width: 100%;
-      margin-bottom: 22px;
-    }
-
-    .field input {
-      width: 100%;
-      height: 52px;
-      padding: 18px 44px 0 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, .25);
-      background: transparent;
-      color: white;
-      font-size: 16px;
-      outline: none;
-    }
-
-    /* EYE ICON */
-    .eye {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 18px;
-      color: #cbd5f5;
-    }
-
-    /* GLOW ON FOCUS */
-    .field input:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 12px rgba(59, 130, 246, .6);
-    }
-
-    /* FLOAT LABEL */
-    .field label {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-60%);
-      color: #94a3b8;
-      font-size: 14px;
-      transition: .3s;
-      pointer-events: none;
-    }
-
-    .field input:focus+label,
-    .field input:not(:placeholder-shown)+label {
-      top: 6px;
-      font-size: 11px;
-      color: #60a5fa;
-    }
-
-    /* FORGOT PASSWORD LINK */
-    .forgot-password {
-      width: 100%;
-      text-align: right;
-      margin-bottom: 15px;
-    }
-
-    .forgot-password a {
-      color: #60a5fa;
+      gap: 12px;
+      margin-bottom: 40px;
       text-decoration: none;
-      font-size: 14px;
+      color: var(--clr-text);
     }
 
-    .forgot-password a:hover {
+    .auth-logo-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .auth-logo-text {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .auth-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .auth-subtitle {
+      color: var(--clr-muted);
+      font-size: 14px;
+      margin-bottom: 36px;
+    }
+
+    .auth-divider {
+      text-align: center;
+      color: var(--clr-subtle);
+      font-size: 13px;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 42%;
+      height: 1px;
+      background: var(--clr-border);
+    }
+
+    .auth-divider::before {
+      left: 0;
+    }
+
+    .auth-divider::after {
+      right: 0;
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--clr-muted);
+    }
+
+    .auth-footer a {
+      color: var(--clr-primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .auth-footer a:hover {
       text-decoration: underline;
     }
 
-    /* BUTTON */
-    button {
-      width: 100%;
-      height: 52px;
-      border-radius: 14px;
-      border: none;
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
-      color: white;
-      font-size: 17px;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-
-    button:hover {
-      box-shadow: 0 0 18px rgba(59, 130, 246, .8);
-    }
-
-    /* LINK */
-    .link {
-      text-align: center;
-      margin-top: 18px;
-      color: #cbd5f5;
-    }
-
-    .link a {
-      color: #60a5fa;
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: 13px;
+      color: var(--clr-primary);
       text-decoration: none;
+      margin-bottom: 24px;
+      margin-top: -10px;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
     }
 
     /* RIGHT PANEL */
-    .right {
-      width: 50%;
-      background: linear-gradient(rgba(50, 0, 250, 0.6), rgba(0, 0, 0, .6)),
-      url("{{ url_for('static', filename='images/loginimages/ecg.jpg') }}");
-      background-size: cover;
-      background-position: center;
+    .auth-right {
+      flex: 1;
+      background: linear-gradient(rgba(5, 13, 26, 0.65), rgba(5, 13, 26, 0.65)),
+      url("{{ url_for('static', filename='images/loginimages/ecg.jpg') }}") center/cover no-repeat;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: white;
-      padding: 50px;
+      padding: 60px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .flash-box {
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 16px;
+    .auth-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.18), rgba(59, 130, 246, 0.10));
+    }
+
+    .auth-right-content {
+      position: relative;
+      z-index: 1;
       text-align: center;
-      font-size: 14px;
+      color: white;
     }
 
-    .flash-box.success {
-      background: rgba(34, 197, 94, 0.2);
-      border: 1px solid #22c55e;
-      color: #4ade80;
-    }
-
-    .flash-box.error {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid #ef4444;
-      color: #f87171;
-    }
-
-    .quote {
-      max-width: 520px;
-      font-size: 22px;
+    .auth-right-quote {
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 600;
       line-height: 1.6;
-      animation: fadeUp 1.5s ease;
+      max-width: 480px;
+      margin-bottom: 32px;
+      font-style: italic;
     }
 
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px)
+    .auth-right-stats {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+    }
+
+    .auth-right-stat {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      backdrop-filter: blur(10px);
+    }
+
+    .auth-right-stat strong {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .auth-right-stat span {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.65);
+      margin-top: 4px;
+      display: block;
+    }
+
+    .btn-full {
+      width: 100%;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-size: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .auth-right {
+        display: none;
       }
 
-      to {
-        opacity: 1;
-        transform: translateY(0)
+      .auth-left {
+        width: 100%;
       }
     }
   </style>
@@ -241,80 +214,90 @@
 
 <body>
 
-  <!-- LEFT -->
-  <div class="left">
-    <div class="card">
+  <!-- LEFT PANEL -->
+  <div class="auth-left">
+    <div class="auth-box anim-fade-up">
 
-      <div class="logo">❤️</div>
+      <a href="/" class="auth-logo">
+        <div class="auth-logo-icon heartbeat">❤️</div>
+        <span class="auth-logo-text">CardioAI</span>
+      </a>
 
-      <h1>AI Heart Disease Detector</h1>
-      <div class="subtitle">
-        Enter your credentials to access the clinical system
-      </div>
+      <h1 class="auth-title">Welcome back</h1>
+      <p class="auth-subtitle">Sign in to access your cardiovascular health dashboard</p>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
       {% for category, msg in messages %}
-      <div class="flash-box {{ category }}">
-        {{ msg }}
+      <div class="alert alert-{{ category }}">
+        {{ '✅' if category == 'success' else '❌' }} {{ msg }}
       </div>
       {% endfor %}
-      {% endif %}
       {% endwith %}
 
       <form method="post" action="{{ url_for('login') }}">
-        <div class="field">
-          <input type="email" name="email" required placeholder=" ">
-          <label>Email</label>
+
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input type="email" name="email" id="email" class="form-control" placeholder="doctor@hospital.com" required>
+          </div>
         </div>
 
-        <div class="field">
-          <input type="password" id="password" name="password" required placeholder=" ">
-          <label>Password</label>
-          <span class="eye" onclick="togglePassword()">👁️</span>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password"
+              required>
+            <span class="eye-toggle" onclick="togglePwd('password', this)">👁️</span>
+          </div>
         </div>
 
-        <!-- Permanent Forgot Password Link -->
-        <div class="forgot-password">
-          <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
-        </div>
+        <a href="{{ url_for('forgot_password') }}" class="forgot-link">Forgot password?</a>
 
-        <button type="submit">Sign In</button>
+        <button type="submit" class="btn btn-primary btn-full">Sign In to Dashboard</button>
       </form>
 
-      <div class="link">
-        New user? <a href="{{ url_for('signup') }}">Create an account</a>
+      <div class="auth-footer">
+        New to CardioAI? <a href="{{ url_for('signup') }}">Create an account</a>
       </div>
 
     </div>
   </div>
 
-  <!-- RIGHT -->
-  <div class="right">
-    <div class="quote">
-      “This AI system has revolutionized how we triage cardiac patients,
-      allowing for earlier intervention and better outcomes.”
+  <!-- RIGHT PANEL -->
+  <div class="auth-right">
+    <div class="auth-right-content anim-fade-in">
+      <div style="font-size:60px; margin-bottom:24px;" class="heartbeat">❤️</div>
+      <p class="auth-right-quote">
+        "Early detection of cardiovascular risk can reduce heart attack mortality by up to 75%."
+      </p>
+      <div class="auth-right-stats">
+        <div class="auth-right-stat">
+          <strong>18+</strong>
+          <span>Clinical Parameters</span>
+        </div>
+        <div class="auth-right-stat">
+          <strong>99%</strong>
+          <span>AI Accuracy</span>
+        </div>
+        <div class="auth-right-stat">
+          <strong>&lt;5s</strong>
+          <span>Analysis Time</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- JS -->
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
   <script>
-    function togglePassword() {
-      const pwd = document.getElementById("password");
-      const eye = document.querySelector(".eye");
-
-      if (pwd.type === "password") {
-        pwd.type = "text";
-        eye.textContent = "🙈";
-      } else {
-        pwd.type = "password";
-        eye.textContent = "👁️";
-      }
+    function togglePwd(id, el) {
+      const f = document.getElementById(id);
+      f.type = f.type === 'password' ? 'text' : 'password';
+      el.textContent = f.type === 'password' ? '👁️' : '🙈';
     }
   </script>
-
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 
 </html>
