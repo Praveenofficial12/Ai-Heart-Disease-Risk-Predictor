@@ -12,7 +12,7 @@ if BACKEND_DIR not in sys.path:
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from app import app as flask_app
+from backend.app import app as flask_app
 
 class VercelWSGIMiddleware:
     def __init__(self, app):
