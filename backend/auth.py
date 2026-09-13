@@ -59,16 +59,16 @@ def verify_token(token):
         return None
 
 # ---------------- UPDATE PASSWORD ----------------
-def update_password(phone, new_password):
+def update_password(identifier, new_password):
     """
-    Update password using phone number (Forgot Password flow)
+    Update password using email or phone number (Forgot Password flow)
     """
-    user = users_col.find_one({"phone": phone})
+    user = users_col.find_one({"$or": [{"email": identifier}, {"phone": identifier}]})
     if not user:
         return False
 
     users_col.update_one(
-        {"phone": phone},
+        {"_id": user["_id"]},
         {"$set": {
             "password": generate_password_hash(new_password),
             "updated_at": datetime.datetime.utcnow()

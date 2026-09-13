@@ -1,33 +1,23 @@
-import subprocess
 import sys
 import os
 import webbrowser
 import threading
+import time
 
-# Paths
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 BACKEND_PATH = os.path.join(PROJECT_ROOT, "backend")
-FRONTEND_PATH = os.path.join(PROJECT_ROOT, "frontend")
 
-# Function to run backend
-def run_backend():
-    os.chdir(BACKEND_PATH)
-    # Run Flask app
-    subprocess.run([sys.executable, "app.py"])
+if BACKEND_PATH not in sys.path:
+    sys.path.insert(0, BACKEND_PATH)
 
-# Function to run frontend server
-def run_frontend():
-    os.chdir(FRONTEND_PATH)
-    # Serve frontend on port 8000
-    subprocess.run([sys.executable, "-m", "http.server", "8000"])
-
-# Open browser after a short delay
 def open_browser():
-    import time
-    time.sleep(3)  # wait for servers to start
-    webbrowser.open("http://127.0.0.1:8000/index.html")
+    time.sleep(1.5)
+    webbrowser.open("http://127.0.0.1:5000/")
 
-# Run backend and frontend in separate threads
-threading.Thread(target=run_backend).start()
-threading.Thread(target=run_frontend).start()
-threading.Thread(target=open_browser).start()
+def run_server():
+    from backend.app import app
+    app.run(host="127.0.0.1", port=5000, debug=False)
+
+if __name__ == "__main__":
+    threading.Thread(target=open_browser, daemon=True).start()
+    run_server()

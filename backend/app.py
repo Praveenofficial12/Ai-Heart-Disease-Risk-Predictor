@@ -1,3 +1,10 @@
+import sys
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
 from flask import (
     Flask, render_template, request,
     redirect, session, flash, url_for
@@ -9,7 +16,7 @@ from database import history_col, users_col
 from utils import allowed_file
 
 from functools import wraps
-import os, uuid, time
+import uuid, time
 from flask_mail import Mail
 
 # ---------------- APP CONFIG ----------------
@@ -78,15 +85,22 @@ def landing():
 # ---------------- START ----------------
 @app.route("/start")
 def start():
+    if "email" in session:
+        return redirect(url_for("dashboard"))
     return redirect(url_for("login"))
 
 @app.route("/start-prediction")
 def start_prediction():
+    if "email" in session:
+        return redirect(url_for("dashboard"))
     return redirect(url_for("login"))
 
 # ---------------- LOGIN ----------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if "email" in session:
+        return redirect(url_for("dashboard"))
+
     session.setdefault("attempts", 0)
 
     if request.method == "POST":
@@ -96,21 +110,21 @@ def login():
         token = authenticate_user(email, password)
 
         if token:
-            username = email.split("@")[0]
+            user = users_col.find_one({"email": email}) or {}
+            username = user.get("username") or email.split("@")[0]
 
-            users_col.update_one(
-                {"email": email},
-                {"$set": {"username": username}},
-                upsert=True
-            )
-
-            user = users_col.find_one({"email": email})
+            if not user.get("username"):
+                users_col.update_one(
+                    {"email": email},
+                    {"$set": {"username": username}},
+                    upsert=True
+                )
 
             session.clear()
             session.update({
                 "email": email,
                 "token": token,
-                "username": user.get("username"),
+                "username": username,
                 "profile_photo": user.get("profile_photo")
             })
 
@@ -120,30 +134,33 @@ def login():
         session["attempts"] += 1
         flash("Invalid email or password", "error")
 
-    return render_template("login.html", show_forgot=session["attempts"] >= 2)
+    return render_template("login.html", show_forgot=session.get("attempts", 0) >= 2)
 
 # ---------------- FORGOT PASSWORD ----------------
 @app.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
     if request.method == "POST":
         email = request.form.get("email")
-        new_password = request.form.get("new_password")
+        new_password = request.form.get("new_password") or request.form.get("password")
 
         if update_password(email, new_password):
-            flash("Password updated successfully", "success")
+            flash("Password updated successfully. Please login.", "success")
             return redirect(url_for("login"))
 
-        flash("Email not found", "error")
+        flash("Email not found. Please verify your email.", "error")
 
     return render_template("forgot_password.html")
 
 # ---------------- SIGNUP ----------------
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    if "email" in session:
+        return redirect(url_for("dashboard"))
+
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
-        phone = request.form.get("phone")
+        phone = request.form.get("phone", "")
 
         username = email.split("@")[0]
 
@@ -153,10 +170,19 @@ def signup():
                 {"$set": {"username": username, "profile_photo": None}}
             )
 
-            flash("Account created successfully", "success")
-            return redirect(url_for("login"))
+            token = authenticate_user(email, password)
+            session.clear()
+            session.update({
+                "email": email,
+                "token": token,
+                "username": username,
+                "profile_photo": None
+            })
 
-        flash("User already exists", "error")
+            flash("Account created successfully! Welcome to your dashboard.", "success")
+            return redirect(url_for("dashboard"))
+
+        flash("User with this email already exists", "error")
 
     return render_template("signup.html")
 
@@ -184,6 +210,7 @@ def profile():
 
     if request.method == "POST":
         new_username = request.form.get("username")
+        bio = request.form.get("bio")
         photo = request.files.get("photo")
 
         update_data = {}
@@ -191,6 +218,9 @@ def profile():
         if new_username:
             update_data["username"] = new_username
             session["username"] = new_username
+
+        if bio is not None:
+            update_data["bio"] = bio
 
         if photo and allowed_file(photo.filename):
             ext = photo.filename.rsplit(".", 1)[1].lower()
@@ -213,9 +243,9 @@ def profile():
 
     return render_template(
         "profile.html",
-        username=user.get("username"),
-        email=user.get("email"),
-        profile_photo=user.get("profile_photo"),
+        username=user.get("username", session.get("username")),
+        email=user.get("email", session.get("email")),
+        profile_photo=user.get("profile_photo", session.get("profile_photo")),
         bio=user.get("bio", ""),
         total_predictions=history_col.count_documents({"email": session["email"]}),
         total_users=users_col.count_documents({})

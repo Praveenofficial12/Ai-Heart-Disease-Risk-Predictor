@@ -1,292 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Profile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Segoe UI",sans-serif;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-body{
-  background:#020617;
-  color:#e5e7eb;
-}
+    body {
+      background: #020617;
+      color: #e5e7eb;
+    }
 
-/* BACK BUTTON */
-.back-btn{
-  position:fixed;
-  top:20px;
-  left:20px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.15);
-  backdrop-filter:blur(10px);
-  color:white;
-  padding:10px 18px;
-  border-radius:12px;
-  cursor:pointer;
-}
+    /* BACK BUTTON */
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .15);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
 
-/* MAIN LAYOUT */
-.container{
-  max-width:1200px;
-  margin:100px auto 40px;
-  padding:0 20px;
-  display:flex;
-  gap:30px;
-}
+    /* MAIN LAYOUT */
+    .container {
+      max-width: 1200px;
+      margin: 100px auto 40px;
+      padding: 0 20px;
+      display: flex;
+      gap: 30px;
+    }
 
-/* PROFILE CARD */
-.profile-card{
-  flex:3;
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(18px);
-  border-radius:22px;
-  padding:30px;
-  border:1px solid rgba(255,255,255,.1);
-}
+    /* PROFILE CARD */
+    .profile-card {
+      flex: 3;
+      background: rgba(255, 255, 255, .05);
+      backdrop-filter: blur(18px);
+      border-radius: 22px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, .1);
+    }
 
-.cover{
-  height:140px;
-  background:linear-gradient(120deg,#ec4899,#8b5cf6,#22d3ee);
-  border-radius:18px;
-}
+    .cover {
+      height: 140px;
+      background: linear-gradient(120deg, #ec4899, #8b5cf6, #22d3ee);
+      border-radius: 18px;
+    }
 
-/* PROFILE HEADER */
-.profile-header{
-  display:flex;
-  align-items:center;
-  gap:25px;
-  margin-top:-60px;
-  flex-wrap:wrap;
-}
+    /* PROFILE HEADER */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-top: -60px;
+      flex-wrap: wrap;
+    }
 
-.avatar-wrapper{
-  position:relative;
-}
+    .avatar-wrapper {
+      position: relative;
+    }
 
-.avatar{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  border:5px solid #020617;
-  object-fit:cover;
-  background:#111827;
-}
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 5px solid #020617;
+      object-fit: cover;
+      background: #111827;
+    }
 
-/* CAMERA ICON */
-.camera{
-  position:absolute;
-  bottom:6px;
-  right:6px;
-  background:#22d3ee;
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  font-size:16px;
-  color:#020617;
-}
+    /* CAMERA ICON */
+    .camera {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      background: #22d3ee;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      color: #020617;
+    }
 
-/* PROFILE INFO */
-.profile-info{
-  flex:1;
-}
+    /* PROFILE INFO */
+    .profile-info {
+      flex: 1;
+    }
 
-.profile-info h2{
-  font-size:26px;
-}
+    .profile-info h2 {
+      font-size: 26px;
+    }
 
-.profile-info p{
-  margin-top:6px;
-  color:#cbd5f5;
-  font-size:14px;
-}
+    .profile-info p {
+      margin-top: 6px;
+      color: #cbd5f5;
+      font-size: 14px;
+    }
 
-/* SAVE BUTTON */
-.edit-btn{
-  padding:10px 22px;
-  border-radius:12px;
-  border:none;
-  background:linear-gradient(135deg,#22d3ee,#6366f1);
-  color:#020617;
-  font-weight:600;
-  cursor:pointer;
-  height:42px;
-}
+    /* SAVE BUTTON */
+    .edit-btn {
+      padding: 10px 22px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #22d3ee, #6366f1);
+      color: #020617;
+      font-weight: 600;
+      cursor: pointer;
+      height: 42px;
+    }
 
-/* BIO */
-.bio{
-  margin-top:30px;
-}
+    /* BIO */
+    .bio {
+      margin-top: 30px;
+    }
 
-.bio h3{
-  margin-bottom:10px;
-}
+    .bio h3 {
+      margin-bottom: 10px;
+    }
 
-.bio textarea{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.15);
-  color:white;
-  resize:none;
-  outline:none;
-}
+    .bio textarea {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: white;
+      resize: none;
+      outline: none;
+    }
 
-/* RIGHT PANEL */
-.stats{
-  flex:2;
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(18px);
-  border-radius:22px;
-  padding:30px;
-  border:1px solid rgba(255,255,255,.1);
-}
+    /* RIGHT PANEL */
+    .stats {
+      flex: 2;
+      background: rgba(255, 255, 255, .05);
+      backdrop-filter: blur(18px);
+      border-radius: 22px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, .1);
+    }
 
-.stats h3{
-  margin-bottom:25px;
-  font-size:22px;
-  text-align:center;
-}
+    .stats h3 {
+      margin-bottom: 25px;
+      font-size: 22px;
+      text-align: center;
+    }
 
-.stat-box{
-  background:rgba(255,255,255,.07);
-  padding:22px;
-  border-radius:16px;
-  margin-bottom:18px;
-  text-align:center;
-}
+    .stat-box {
+      background: rgba(255, 255, 255, .07);
+      padding: 22px;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
 
-.stat-box span{
-  font-size:30px;
-  font-weight:700;
-  color:#22c55e;
-}
+    .stat-box span {
+      font-size: 30px;
+      font-weight: 700;
+      color: #22c55e;
+    }
 
-.stat-box small{
-  display:block;
-  margin-top:6px;
-  color:#cbd5f5;
-}
+    .stat-box small {
+      display: block;
+      margin-top: 6px;
+      color: #cbd5f5;
+    }
 
-/* HIDDEN INPUT */
-#photoInput{
-  display:none;
-}
+    /* HIDDEN INPUT */
+    #photoInput {
+      display: none;
+    }
 
-/* RESPONSIVE */
-@media(max-width:900px){
-  .container{
-    flex-direction:column;
-  }
+    /* RESPONSIVE */
+    @media(max-width:900px) {
+      .container {
+        flex-direction: column;
+      }
 
-  .profile-header{
-    align-items:flex-start;
-  }
+      .profile-header {
+        align-items: flex-start;
+      }
 
-  .edit-btn{
-    margin-top:15px;
-  }
-}
-</style>
+      .msg-banner {
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 15px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .msg-banner.success {
+        background: rgba(34, 197, 94, 0.2);
+        color: #4ade80;
+      }
+
+      .msg-banner.error {
+        background: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+      }
+  </style>
 </head>
 
 <body>
 
-<button class="back-btn" onclick="goBack()">← Back</button>
+  <button class="back-btn" onclick="window.location.href='{{ url_for('dashboard') }}';">← Dashboard</button>
 
-<div class="container">
+  <div class="container">
 
-  <!-- PROFILE -->
-  <div class="profile-card">
+    <!-- PROFILE -->
+    <form class="profile-card" method="post" action="{{ url_for('profile') }}" enctype="multipart/form-data">
 
-    <div class="cover"></div>
+      <div class="cover"></div>
 
-    <div class="profile-header">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, msg in messages %}
+      <div class="msg-banner {{ category }}">
+        {{ msg }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
 
-      <div class="avatar-wrapper">
-        <img src="{{ url_for('static', filename='images/profile.png') }}" 
-             class="avatar" id="avatar">
-        <div class="camera" onclick="photoInput.click()">📷</div>
-        <input type="file" id="photoInput" accept="image/*">
+      <div class="profile-header">
+
+        <div class="avatar-wrapper">
+          <img
+            src="{% if profile_photo %}{{ url_for('static', filename=profile_photo) }}{% else %}{{ url_for('static', filename='images/profile.png') }}{% endif %}"
+            class="avatar" id="avatar">
+          <div class="camera" onclick="document.getElementById('photoInput').click()">📷</div>
+          <input type="file" id="photoInput" name="photo" accept="image/*">
+        </div>
+
+        <div class="profile-info">
+          <input type="text" name="username" value="{{ username or '' }}" placeholder="Username"
+            style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:white; padding:6px 12px; border-radius:8px; font-size:22px; font-weight:600; width:100%; max-width:280px;">
+          <p style="margin-top:8px;">{{ email }}</p>
+          <p>AI Heart Disease Risk Detector</p>
+        </div>
+
+        <button type="submit" class="edit-btn">Save Profile</button>
+
       </div>
 
-      <div class="profile-info">
-        <h2 id="username">{{ username }}</h2>
-        <p>{{ email }}</p>
-        <p>AI Heart Disease Risk Detector</p>
+      <div class="bio">
+        <h3>Bio</h3>
+        <textarea name="bio" rows="4" placeholder="Tell something about yourself...">{{ bio or '' }}</textarea>
       </div>
 
-      <button class="edit-btn" onclick="saveProfile()">Save</button>
+    </form>
 
-    </div>
+    <!-- STATS -->
+    <div class="stats">
 
-    <div class="bio">
-      <h3>Bio</h3>
-      <textarea rows="4" placeholder="Tell something about yourself...">{{ bio }}</textarea>
+      <h3>Website Analytics</h3>
+
+      <div class="stat-box">
+        <span>94.2%</span>
+        <small>Prediction Accuracy</small>
+      </div>
+
+      <div class="stat-box">
+        <span>{{ total_predictions }}</span>
+        <small>Prediction History</small>
+      </div>
+
+      <div class="stat-box">
+        <span>{{ total_users }}</span>
+        <small>Total Users Tested</small>
+      </div>
+
+      <div class="stat-box">
+        <span>Active</span>
+        <small>System Status</small>
+      </div>
+
     </div>
 
   </div>
 
-  <!-- STATS -->
-  <div class="stats">
+  <script>
+    const photoInput = document.getElementById("photoInput");
+    const avatar = document.getElementById("avatar");
 
-    <h3>Website Analytics</h3>
-
-    <div class="stat-box">
-      <span>94.2%</span>
-      <small>Prediction Accuracy</small>
-    </div>
-
-    <div class="stat-box">
-      <span>{{ total_predictions }}</span>
-      <small>Prediction History</small>
-    </div>
-
-    <div class="stat-box">
-      <span>{{ total_users }}</span>
-      <small>Total Users Tested</small>
-    </div>
-
-    <div class="stat-box">
-      <span>Active</span>
-      <small>System Status</small>
-    </div>
-
-  </div>
-
-</div>
-
-<script>
-const photoInput = document.getElementById("photoInput");
-const avatar = document.getElementById("avatar");
-
-photoInput.addEventListener("change", () => {
-  const file = photoInput.files[0];
-  if(file){
-    avatar.src = URL.createObjectURL(file);
-  }
-});
-
-function saveProfile(){
-  alert("Profile saved successfully!");
-  window.location.href = "{{ url_for('dashboard') }}";
-}
-
-function goBack(){
-  window.history.back();
-}
-</script>
+    if (photoInput) {
+      photoInput.addEventListener("change", () => {
+        const file = photoInput.files[0];
+        if (file) {
+          avatar.src = URL.createObjectURL(file);
+        }
+      });
+    }
+  </script>
 
 </body>
+
 </html>

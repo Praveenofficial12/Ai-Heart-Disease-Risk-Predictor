@@ -1,200 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Dashboard</title>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Segoe UI", sans-serif;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-body{
-  background:radial-gradient(circle at top,#0f172a,#020617);
-  color:white;
-  min-height:100vh;
-}
+    body {
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: white;
+      min-height: 100vh;
+    }
 
-/* HEADER */
-.header{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 50px;
-  z-index:100;
-}
+    /* HEADER */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      z-index: 100;
+    }
 
-.site-name{
-  font-size:20px;
-  font-weight:600;
-  letter-spacing:.5px;
-}
+    .site-name {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
 
-/* PROFILE BUTTON */
-.profile-container{
-  display:flex;
-  align-items:center;
-  cursor:pointer;
-  text-decoration:none;
-}
+    /* PROFILE BUTTON */
+    .profile-container {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+    }
 
-.profile-pic{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  object-fit:cover;
-  border:2px solid #38bdf8;
-  margin-right:10px;
-}
+    .profile-pic {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #38bdf8;
+      margin-right: 10px;
+    }
 
-.profile-name{
-  font-size:14px;
-  font-weight:500;
-  color:white;
-}
+    .profile-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+    }
 
-/* HEART ANIMATION */
-.heart-container{
-  margin-top:120px;
-  text-align:center;
-}
+    /* HEART ANIMATION */
+    .heart-container {
+      margin-top: 120px;
+      text-align: center;
+    }
 
-.heart{
-  font-size:80px;
-  animation:heartbeat 1.5s infinite;
-  filter:drop-shadow(0 0 15px rgba(239,68,68,.8));
-}
+    .heart {
+      font-size: 80px;
+      animation: heartbeat 1.5s infinite;
+      filter: drop-shadow(0 0 15px rgba(239, 68, 68, .8));
+    }
 
-@keyframes heartbeat{
-  0%{transform:scale(1)}
-  30%{transform:scale(1.15)}
-  60%{transform:scale(1)}
-  100%{transform:scale(1)}
-}
+    @keyframes heartbeat {
+      0% {
+        transform: scale(1)
+      }
 
-/* DASHBOARD */
-.dashboard{
-  max-width:900px;
-  margin:30px auto 0;
-  padding:40px;
-  text-align:center;
-}
+      30% {
+        transform: scale(1.15)
+      }
 
-/* ACTION BUTTONS */
-.actions{
-  display:flex;
-  justify-content:center;
-  gap:25px;
-  margin-bottom:50px;
-}
+      60% {
+        transform: scale(1)
+      }
 
-.action-btn{
-  position:relative;
-  padding:16px 36px;
-  border-radius:30px;
-  font-size:16px;
-  text-decoration:none;
-  color:white;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(255,255,255,.05);
-}
+      100% {
+        transform: scale(1)
+      }
+    }
 
-.action-btn::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-100%;
-  width:100%;
-  height:100%;
-  background:linear-gradient(135deg,#06b6d4,#3b82f6);
-  transition:.4s;
-  z-index:-1;
-}
+    /* DASHBOARD */
+    .dashboard {
+      max-width: 900px;
+      margin: 30px auto 0;
+      padding: 40px;
+      text-align: center;
+    }
 
-.action-btn:hover::before{
-  left:0;
-}
+    /* ACTION BUTTONS */
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-bottom: 50px;
+    }
 
-.action-btn:hover{
-  box-shadow:0 0 25px rgba(59,130,246,.7);
-  transform:translateY(-3px);
-}
+    .action-btn {
+      position: relative;
+      padding: 16px 36px;
+      border-radius: 30px;
+      font-size: 16px;
+      text-decoration: none;
+      color: white;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .2);
+      background: rgba(255, 255, 255, .05);
+    }
 
-/* INFO SECTION */
-.info{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:25px;
-  padding:40px;
-  animation:fadeUp 1.2s ease;
-}
+    .action-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      transition: .4s;
+      z-index: -1;
+    }
 
-.info h3{
-  font-size:26px;
-  margin-bottom:20px;
-}
+    .action-btn:hover::before {
+      left: 0;
+    }
 
-.info p{
-  font-size:17px;
-  line-height:1.8;
-  color:#cbd5e1;
-}
+    .action-btn:hover {
+      box-shadow: 0 0 25px rgba(59, 130, 246, .7);
+      transform: translateY(-3px);
+    }
 
-/* FADE ANIMATION */
-@keyframes fadeUp{
-  from{opacity:0; transform:translateY(30px)}
-  to{opacity:1; transform:translateY(0)}
-}
-</style>
+    /* INFO SECTION */
+    .info {
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 25px;
+      padding: 40px;
+      animation: fadeUp 1.2s ease;
+    }
+
+    .info h3 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .info p {
+      font-size: 17px;
+      line-height: 1.8;
+      color: #cbd5e1;
+    }
+
+    /* FADE ANIMATION */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .alert-msg {
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .alert-msg.success {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid #22c55e;
+      color: #4ade80;
+    }
+
+    .alert-msg.error {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #f87171;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="site-name">AI Heart Disease Risk Predictor</div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="site-name">AI Heart Disease Risk Predictor</div>
 
-  <!-- PROFILE REDIRECT -->
-  <a href="/profile" class="profile-container">
-    <img src="/static/images/profile.png" alt="Profile" class="profile-pic">
-    <div class="profile-name">{{ username }}</div>
-  </a>
-</div>
-
-<!-- CENTER HEART -->
-<div class="heart-container">
-  <div class="heart">❤️</div>
-</div>
-
-<!-- DASHBOARD -->
-<div class="dashboard">
-
-  <div class="actions">
-    <a href="/manual-predict" class="action-btn">Manual Predict</a>
-    <a href="/upload-report" class="action-btn">Upload Report</a>
-    <a href="/history" class="action-btn">History</a>
+    <!-- PROFILE & SIGNOUT -->
+    <div style="display:flex; align-items:center; gap:20px;">
+      <a href="{{ url_for('profile') }}" class="profile-container">
+        <img
+          src="{% if profile_photo %}{{ url_for('static', filename=profile_photo) }}{% else %}{{ url_for('static', filename='images/profile.png') }}{% endif %}"
+          alt="Profile" class="profile-pic">
+        <div class="profile-name">{{ username or 'User' }}</div>
+      </a>
+      <a href="{{ url_for('logout') }}" onclick="return confirm('Are you sure you want to sign out?')"
+        style="padding:8px 18px; border-radius:20px; background:linear-gradient(135deg,#ef4444,#dc2626); color:white; text-decoration:none; font-size:14px; font-weight:500;">Sign
+        Out</a>
+    </div>
   </div>
 
-  <div class="info">
-    <h3>About This Application</h3>
-    <p>
-      The AI Heart Disease Risk Predictor leverages advanced machine learning
-      models to analyze patient health data and medical reports for early
-      detection of cardiovascular risks. This system supports proactive
-      healthcare decisions with high accuracy, secure data handling,
-      and AI-powered clinical insights.
-    </p>
+  <!-- CENTER HEART -->
+  <div class="heart-container">
+    <div class="heart">❤️</div>
   </div>
 
-</div>
+  <!-- DASHBOARD -->
+  <div class="dashboard">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, msg in messages %}
+    <div class="alert-msg {{ category }}">
+      {{ msg }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="actions">
+      <a href="/manual-predict" class="action-btn">Manual Predict</a>
+      <a href="/upload-report" class="action-btn">Upload Report</a>
+      <a href="/history" class="action-btn">History</a>
+    </div>
+
+    <div class="info">
+      <h3>About This Application</h3>
+      <p>
+        The AI Heart Disease Risk Predictor leverages advanced machine learning
+        models to analyze patient health data and medical reports for early
+        detection of cardiovascular risks. This system supports proactive
+        healthcare decisions with high accuracy, secure data handling,
+        and AI-powered clinical insights.
+      </p>
+    </div>
+
+  </div>
 
 </body>
+
 </html>

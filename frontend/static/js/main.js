@@ -38,7 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const submitBtn = form.querySelector("button[type='submit']");
       if (submitBtn) {
         submitBtn.innerText = "Please wait...";
-        submitBtn.disabled = true;
+        setTimeout(() => {
+          submitBtn.disabled = true;
+        }, 50);
       }
     });
   });

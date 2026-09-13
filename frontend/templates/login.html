@@ -1,274 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Login | AI Heart Disease Detector</title>
+  <meta charset="UTF-8">
+  <title>Login | AI Heart Disease Detector</title>
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Segoe UI", sans-serif;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-body{
-  height:100vh;
-  display:flex;
-  background:#0f172a;
-}
+    body {
+      height: 100vh;
+      display: flex;
+      background: #0f172a;
+    }
 
-/* LEFT PANEL */
-.left{
-  width:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:radial-gradient(circle at top left,#1e293b,#020617);
-}
+    /* LEFT PANEL */
+    .left {
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top left, #1e293b, #020617);
+    }
 
-/* GLASS CARD */
-.card{
-  width:100%;
-  max-width:380px;
-  padding:45px;
-  background:rgba(255,255,255,0.08);
-  border-radius:24px;
-  backdrop-filter:blur(14px);
-  box-shadow:0 0 40px rgba(59,130,246,.25);
-  border:1px solid rgba(255,255,255,.15);
-}
+    /* GLASS CARD */
+    .card {
+      width: 100%;
+      max-width: 380px;
+      padding: 45px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 40px rgba(59, 130, 246, .25);
+      border: 1px solid rgba(255, 255, 255, .15);
+    }
 
-/* LOGO */
-.logo{
-  font-size:50px;
-  text-align:center;
-  margin-bottom:15px;
-  animation:pulse 2s infinite;
-}
+    /* LOGO */
+    .logo {
+      font-size: 50px;
+      text-align: center;
+      margin-bottom: 15px;
+      animation: pulse 2s infinite;
+    }
 
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.1)}
-  100%{transform:scale(1)}
-}
+    @keyframes pulse {
+      0% {
+        transform: scale(1)
+      }
 
-/* TITLE */
-h1{
-  text-align:center;
-  color:white;
-  font-size:22px;
-}
+      50% {
+        transform: scale(1.1)
+      }
 
-.subtitle{
-  text-align:center;
-  color:#cbd5f5;
-  font-size:14px;
-  margin:10px 0 30px;
-}
+      100% {
+        transform: scale(1)
+      }
+    }
 
-/* FORM */
-form{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
+    /* TITLE */
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 22px;
+    }
 
-/* INPUT GROUP */
-.field{
-  position:relative;
-  width:100%;
-  margin-bottom:22px;
-}
+    .subtitle {
+      text-align: center;
+      color: #cbd5f5;
+      font-size: 14px;
+      margin: 10px 0 30px;
+    }
 
-.field input{
-  width:100%;
-  height:52px;
-  padding:18px 44px 0 16px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.25);
-  background:transparent;
-  color:white;
-  font-size:16px;
-  outline:none;
-}
+    /* FORM */
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-/* EYE ICON */
-.eye{
-  position:absolute;
-  right:14px;
-  top:50%;
-  transform:translateY(-50%);
-  cursor:pointer;
-  font-size:18px;
-  color:#cbd5f5;
-}
+    /* INPUT GROUP */
+    .field {
+      position: relative;
+      width: 100%;
+      margin-bottom: 22px;
+    }
 
-/* GLOW ON FOCUS */
-.field input:focus{
-  border-color:#3b82f6;
-  box-shadow:0 0 12px rgba(59,130,246,.6);
-}
+    .field input {
+      width: 100%;
+      height: 52px;
+      padding: 18px 44px 0 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .25);
+      background: transparent;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
 
-/* FLOAT LABEL */
-.field label{
-  position:absolute;
-  left:16px;
-  top:50%;
-  transform:translateY(-60%);
-  color:#94a3b8;
-  font-size:14px;
-  transition:.3s;
-  pointer-events:none;
-}
+    /* EYE ICON */
+    .eye {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #cbd5f5;
+    }
 
-.field input:focus + label,
-.field input:not(:placeholder-shown) + label{
-  top:6px;
-  font-size:11px;
-  color:#60a5fa;
-}
+    /* GLOW ON FOCUS */
+    .field input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 12px rgba(59, 130, 246, .6);
+    }
 
-/* FORGOT PASSWORD LINK */
-.forgot-password{
-  width:100%;
-  text-align:right;
-  margin-bottom:15px;
-}
+    /* FLOAT LABEL */
+    .field label {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-60%);
+      color: #94a3b8;
+      font-size: 14px;
+      transition: .3s;
+      pointer-events: none;
+    }
 
-.forgot-password a{
-  color:#60a5fa;
-  text-decoration:none;
-  font-size:14px;
-}
+    .field input:focus+label,
+    .field input:not(:placeholder-shown)+label {
+      top: 6px;
+      font-size: 11px;
+      color: #60a5fa;
+    }
 
-.forgot-password a:hover{
-  text-decoration:underline;
-}
+    /* FORGOT PASSWORD LINK */
+    .forgot-password {
+      width: 100%;
+      text-align: right;
+      margin-bottom: 15px;
+    }
 
-/* BUTTON */
-button{
-  width:100%;
-  height:52px;
-  border-radius:14px;
-  border:none;
-  background:linear-gradient(135deg,#3b82f6,#2563eb);
-  color:white;
-  font-size:17px;
-  cursor:pointer;
-  margin-top:5px;
-}
+    .forgot-password a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-size: 14px;
+    }
 
-button:hover{
-  box-shadow:0 0 18px rgba(59,130,246,.8);
-}
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
 
-/* LINK */
-.link{
-  text-align:center;
-  margin-top:18px;
-  color:#cbd5f5;
-}
+    /* BUTTON */
+    button {
+      width: 100%;
+      height: 52px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
 
-.link a{
-  color:#60a5fa;
-  text-decoration:none;
-}
+    button:hover {
+      box-shadow: 0 0 18px rgba(59, 130, 246, .8);
+    }
 
-/* RIGHT PANEL */
-.right{
-  width:50%;
-  background:
-    linear-gradient(rgba(50, 0, 250, 0.6),rgba(0,0,0,.6)),
-    url("{{ url_for('static', filename='images/loginimages/ecg.jpg') }}");
-  background-size:cover;
-  background-position:center;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  padding:50px;
-}
+    /* LINK */
+    .link {
+      text-align: center;
+      margin-top: 18px;
+      color: #cbd5f5;
+    }
 
-.quote{
-  max-width:520px;
-  font-size:22px;
-  line-height:1.6;
-  animation:fadeUp 1.5s ease;
-}
+    .link a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
 
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
-}
-</style>
+    /* RIGHT PANEL */
+    .right {
+      width: 50%;
+      background: linear-gradient(rgba(50, 0, 250, 0.6), rgba(0, 0, 0, .6)),
+      url("{{ url_for('static', filename='images/loginimages/ecg.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      padding: 50px;
+    }
+
+    .flash-box {
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .flash-box.success {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid #22c55e;
+      color: #4ade80;
+    }
+
+    .flash-box.error {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #f87171;
+    }
+
+    .quote {
+      max-width: 520px;
+      font-size: 22px;
+      line-height: 1.6;
+      animation: fadeUp 1.5s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- LEFT -->
-<div class="left">
-  <div class="card">
+  <!-- LEFT -->
+  <div class="left">
+    <div class="card">
 
-    <div class="logo">❤️</div>
+      <div class="logo">❤️</div>
 
-    <h1>AI Heart Disease Detector</h1>
-    <div class="subtitle">
-      Enter your credentials to access the clinical system
+      <h1>AI Heart Disease Detector</h1>
+      <div class="subtitle">
+        Enter your credentials to access the clinical system
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, msg in messages %}
+      <div class="flash-box {{ category }}">
+        {{ msg }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+      <form method="post" action="{{ url_for('login') }}">
+        <div class="field">
+          <input type="email" name="email" required placeholder=" ">
+          <label>Email</label>
+        </div>
+
+        <div class="field">
+          <input type="password" id="password" name="password" required placeholder=" ">
+          <label>Password</label>
+          <span class="eye" onclick="togglePassword()">👁️</span>
+        </div>
+
+        <!-- Permanent Forgot Password Link -->
+        <div class="forgot-password">
+          <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
+        </div>
+
+        <button type="submit">Sign In</button>
+      </form>
+
+      <div class="link">
+        New user? <a href="{{ url_for('signup') }}">Create an account</a>
+      </div>
+
     </div>
+  </div>
 
-    <form method="post" action="{{ url_for('login') }}">
-      <div class="field">
-        <input type="email" name="email" required placeholder=" ">
-        <label>Email</label>
-      </div>
-
-      <div class="field">
-        <input type="password" id="password" name="password" required placeholder=" ">
-        <label>Password</label>
-        <span class="eye" onclick="togglePassword()">👁️</span>
-      </div>
-
-      <!-- Permanent Forgot Password Link -->
-      <div class="forgot-password">
-        <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
-      </div>
-
-      <button type="submit">Sign In</button>
-    </form>
-
-    <div class="link">
-      New user? <a href="{{ url_for('signup') }}">Create an account</a>
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="quote">
+      “This AI system has revolutionized how we triage cardiac patients,
+      allowing for earlier intervention and better outcomes.”
     </div>
-
   </div>
-</div>
 
-<!-- RIGHT -->
-<div class="right">
-  <div class="quote">
-    “This AI system has revolutionized how we triage cardiac patients,
-    allowing for earlier intervention and better outcomes.”
-  </div>
-</div>
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
-<!-- JS -->
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      const eye = document.querySelector(".eye");
 
-<script>
-function togglePassword(){
-  const pwd = document.getElementById("password");
-  const eye = document.querySelector(".eye");
-
-  if(pwd.type === "password"){
-    pwd.type = "text";
-    eye.textContent = "🙈";
-  }else{
-    pwd.type = "password";
-    eye.textContent = "👁️";
-  }
-}
-</script>
+      if (pwd.type === "password") {
+        pwd.type = "text";
+        eye.textContent = "🙈";
+      } else {
+        pwd.type = "password";
+        eye.textContent = "👁️";
+      }
+    }
+  </script>
 
 </body>
+
 </html>

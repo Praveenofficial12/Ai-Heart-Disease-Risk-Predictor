@@ -1,333 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Signup | AI Heart Disease Detector</title>
+  <meta charset="UTF-8">
+  <title>Signup | AI Heart Disease Detector</title>
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Segoe UI", sans-serif;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-body{
-  height:100vh;
-  display:flex;
-  background:#0f172a;
-}
+    body {
+      height: 100vh;
+      display: flex;
+      background: #0f172a;
+    }
 
-/* LEFT PANEL */
-.left{
-  width:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:radial-gradient(circle at top left,#1e293b,#020617);
-}
+    /* LEFT PANEL */
+    .left {
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top left, #1e293b, #020617);
+    }
 
-/* GLASS CARD */
-.card{
-  width:100%;
-  max-width:380px;
-  padding:45px;
-  background:rgba(255,255,255,0.08);
-  border-radius:24px;
-  backdrop-filter:blur(14px);
-  box-shadow:0 0 40px rgba(59,130,246,.25);
-  border:1px solid rgba(255,255,255,.15);
-}
+    /* GLASS CARD */
+    .card {
+      width: 100%;
+      max-width: 380px;
+      padding: 45px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 40px rgba(59, 130, 246, .25);
+      border: 1px solid rgba(255, 255, 255, .15);
+    }
 
-/* LOGO */
-.logo{
-  font-size:50px;
-  text-align:center;
-  margin-bottom:15px;
-  animation:pulse 2s infinite;
-}
+    /* LOGO */
+    .logo {
+      font-size: 50px;
+      text-align: center;
+      margin-bottom: 15px;
+      animation: pulse 2s infinite;
+    }
 
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.1)}
-  100%{transform:scale(1)}
-}
+    @keyframes pulse {
+      0% {
+        transform: scale(1)
+      }
 
-/* TITLE */
-h1{
-  text-align:center;
-  color:white;
-  font-size:22px;
-}
+      50% {
+        transform: scale(1.1)
+      }
 
-.subtitle{
-  text-align:center;
-  color:#cbd5f5;
-  font-size:14px;
-  margin:10px 0 30px;
-}
+      100% {
+        transform: scale(1)
+      }
+    }
 
-/* FORM */
-form{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
+    /* TITLE */
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 22px;
+    }
 
-/* INPUT GROUP */
-.field{
-  position:relative;
-  width:100%;
-  margin-bottom:22px;
-}
+    .subtitle {
+      text-align: center;
+      color: #cbd5f5;
+      font-size: 14px;
+      margin: 10px 0 30px;
+    }
 
-.field input{
-  width:100%;
-  height:52px;
-  padding:18px 44px 0 16px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.25);
-  background:transparent;
-  color:white;
-  font-size:16px;
-  outline:none;
-}
+    /* FORM */
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-/* EYE ICON */
-.eye{
-  position:absolute;
-  right:14px;
-  top:50%;
-  transform:translateY(-50%);
-  cursor:pointer;
-  font-size:18px;
-  color:#cbd5f5;
-}
+    /* INPUT GROUP */
+    .field {
+      position: relative;
+      width: 100%;
+      margin-bottom: 22px;
+    }
 
-/* GLOW ON FOCUS */
-.field input:focus{
-  border-color:#3b82f6;
-  box-shadow:0 0 12px rgba(59,130,246,.6);
-}
+    .field input {
+      width: 100%;
+      height: 52px;
+      padding: 18px 44px 0 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .25);
+      background: transparent;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
 
-/* FLOAT LABEL */
-.field label{
-  position:absolute;
-  left:16px;
-  top:50%;
-  transform:translateY(-50%);
-  color:#94a3b8;
-  font-size:14px;
-  transition:.3s;
-  pointer-events:none;
-}
+    /* EYE ICON */
+    .eye {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #cbd5f5;
+    }
 
-.field input:focus + label,
-.field input:not(:placeholder-shown) + label{
-  top:6px;
-  font-size:11px;
-  color:#60a5fa;
-}
+    /* GLOW ON FOCUS */
+    .field input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 12px rgba(59, 130, 246, .6);
+    }
 
-/* STRENGTH METER */
-.strength{
-  width:100%;
-  height:6px;
-  border-radius:6px;
-  background:#334155;
-  overflow:hidden;
-  margin-top:-12px;
-  margin-bottom:12px;
-}
+    /* FLOAT LABEL */
+    .field label {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 14px;
+      transition: .3s;
+      pointer-events: none;
+    }
 
-.strength span{
-  height:100%;
-  width:0%;
-  display:block;
-  transition:.3s;
-}
+    .field input:focus+label,
+    .field input:not(:placeholder-shown)+label {
+      top: 6px;
+      font-size: 11px;
+      color: #60a5fa;
+    }
 
-.strength-text{
-  font-size:12px;
-  margin-top:-8px;
-  margin-bottom:10px;
-  text-align:right;
-}
+    /* STRENGTH METER */
+    .strength {
+      width: 100%;
+      height: 6px;
+      border-radius: 6px;
+      background: #334155;
+      overflow: hidden;
+      margin-top: -12px;
+      margin-bottom: 12px;
+    }
 
-/* ERROR */
-.error{
-  color:#f87171;
-  font-size:13px;
-  margin-top:-10px;
-  margin-bottom:10px;
-  display:none;
-}
+    .strength span {
+      height: 100%;
+      width: 0%;
+      display: block;
+      transition: .3s;
+    }
 
-/* BUTTON */
-button{
-  width:100%;
-  height:52px;
-  border-radius:14px;
-  border:none;
-  background:linear-gradient(135deg,#3b82f6,#2563eb);
-  color:white;
-  font-size:17px;
-  cursor:pointer;
-  margin-top:10px;
-}
+    .strength-text {
+      font-size: 12px;
+      margin-top: -8px;
+      margin-bottom: 10px;
+      text-align: right;
+    }
 
-button:hover{
-  box-shadow:0 0 18px rgba(59,130,246,.8);
-}
+    /* ERROR */
+    .error {
+      color: #f87171;
+      font-size: 13px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
 
-/* LINK */
-.link{
-  text-align:center;
-  margin-top:18px;
-  color:#cbd5f5;
-}
+    /* BUTTON */
+    button {
+      width: 100%;
+      height: 52px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
 
-.link a{
-  color:#60a5fa;
-  text-decoration:none;
-}
+    button:hover {
+      box-shadow: 0 0 18px rgba(59, 130, 246, .8);
+    }
 
-/* RIGHT PANEL */
-.right{
-  width:60%;
-  background:
-    linear-gradient(rgba(50, 0, 250, 0.6),rgba(0,0,0,.6)),
-    url("{{ url_for('static', filename='images/loginimages/ecg.jpg') }}");
-  background-size:cover;
-  background-position:center;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  padding:50px;
-}
+    /* LINK */
+    .link {
+      text-align: center;
+      margin-top: 18px;
+      color: #cbd5f5;
+    }
 
-.quote{
-  max-width:520px;
-  font-size:22px;
-  line-height:1.6;
-  animation:fadeUp 1.5s ease;
-}
+    .link a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
 
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
-}
-</style>
+    /* RIGHT PANEL */
+    .right {
+      width: 60%;
+      background: linear-gradient(rgba(50, 0, 250, 0.6), rgba(0, 0, 0, .6)),
+      url("{{ url_for('static', filename='images/loginimages/ecg.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      padding: 50px;
+    }
+
+    .quote {
+      max-width: 520px;
+      font-size: 22px;
+      line-height: 1.6;
+      animation: fadeUp 1.5s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .flash-box {
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .flash-box.success {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid #22c55e;
+      color: #4ade80;
+    }
+
+    .flash-box.error {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #f87171;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- LEFT -->
-<div class="left">
-  <div class="card">
+  <!-- LEFT -->
+  <div class="left">
+    <div class="card">
 
-    <div class="logo">❤️</div>
+      <div class="logo">❤️</div>
 
-    <h1>Create Account</h1>
-    <div class="subtitle">Register to access AI heart disease prediction</div>
+      <h1>Create Account</h1>
+      <div class="subtitle">Register to access AI heart disease prediction</div>
 
-    <form method="post" action="{{ url_for('signup') }}" onsubmit="return validatePassword()">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, msg in messages %}
+      <div class="flash-box {{ category }}">
+        {{ msg }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
 
-      <div class="field">
-        <input type="email" name="email" required placeholder=" ">
-        <label>Email</label>
+      <form method="post" action="{{ url_for('signup') }}" onsubmit="return validatePassword()">
+
+        <div class="field">
+          <input type="email" name="email" required placeholder=" ">
+          <label>Email</label>
+        </div>
+
+        <div class="field">
+          <input type="password" id="password" name="password" required placeholder=" " onkeyup="checkStrength()">
+          <label>Password</label>
+          <span class="eye" onclick="togglePassword('password', this)">👁️</span>
+        </div>
+
+        <div class="strength">
+          <span id="strengthBar"></span>
+        </div>
+        <div class="strength-text" id="strengthText"></div>
+
+        <div class="field">
+          <input type="password" id="confirm_password" required placeholder=" ">
+          <label>Confirm Password</label>
+          <span class="eye" onclick="togglePassword('confirm_password', this)">👁️</span>
+        </div>
+
+        <div class="error" id="errorMsg">Passwords do not match</div>
+
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <div class="link">
+        Already have an account?
+        <a href="{{ url_for('login') }}">Login</a>
       </div>
 
-      <div class="field">
-        <input type="password" id="password" name="password" required placeholder=" " onkeyup="checkStrength()">
-        <label>Password</label>
-        <span class="eye" onclick="togglePassword('password', this)">👁️</span>
-      </div>
-
-      <div class="strength">
-        <span id="strengthBar"></span>
-      </div>
-      <div class="strength-text" id="strengthText"></div>
-
-      <div class="field">
-        <input type="password" id="confirm_password" required placeholder=" ">
-        <label>Confirm Password</label>
-        <span class="eye" onclick="togglePassword('confirm_password', this)">👁️</span>
-      </div>
-
-      <div class="error" id="errorMsg">Passwords do not match</div>
-
-      <button type="submit">Sign Up</button>
-    </form>
-
-    <div class="link">
-      Already have an account?
-      <a href="{{ url_for('login') }}">Login</a>
     </div>
-
   </div>
-</div>
 
-<!-- RIGHT -->
-<div class="right">
-  <div class="quote">
-    “Early detection saves lives. Let AI assist your diagnosis.”
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="quote">
+      “Early detection saves lives. Let AI assist your diagnosis.”
+    </div>
   </div>
-</div>
 
-<script>
-function togglePassword(id, icon){
-  const field = document.getElementById(id);
-  field.type = field.type === "password" ? "text" : "password";
-  icon.textContent = field.type === "password" ? "👁️" : "🙈";
-}
+  <script>
+    function togglePassword(id, icon) {
+      const field = document.getElementById(id);
+      field.type = field.type === "password" ? "text" : "password";
+      icon.textContent = field.type === "password" ? "👁️" : "🙈";
+    }
 
-function checkStrength(){
-  const pwd = document.getElementById("password").value;
-  const bar = document.getElementById("strengthBar");
-  const text = document.getElementById("strengthText");
+    function checkStrength() {
+      const pwd = document.getElementById("password").value;
+      const bar = document.getElementById("strengthBar");
+      const text = document.getElementById("strengthText");
 
-  let strength = 0;
-  if(pwd.length >= 8) strength++;
-  if(/[A-Z]/.test(pwd)) strength++;
-  if(/[0-9]/.test(pwd)) strength++;
-  if(/[^A-Za-z0-9]/.test(pwd)) strength++;
+      let strength = 0;
+      if (pwd.length >= 8) strength++;
+      if (/[A-Z]/.test(pwd)) strength++;
+      if (/[0-9]/.test(pwd)) strength++;
+      if (/[^A-Za-z0-9]/.test(pwd)) strength++;
 
-  if(strength === 0){
-    bar.style.width = "0%";
-    text.textContent = "";
-  }else if(strength <= 2){
-    bar.style.width = "40%";
-    bar.style.background = "#ef4444";
-    text.textContent = "Weak password";
-    text.style.color = "#ef4444";
-  }else if(strength === 3){
-    bar.style.width = "70%";
-    bar.style.background = "#facc15";
-    text.textContent = "Medium strength";
-    text.style.color = "#facc15";
-  }else{
-    bar.style.width = "100%";
-    bar.style.background = "#22c55e";
-    text.textContent = "Strong password";
-    text.style.color = "#22c55e";
-  }
-}
+      if (strength === 0) {
+        bar.style.width = "0%";
+        text.textContent = "";
+      } else if (strength <= 2) {
+        bar.style.width = "40%";
+        bar.style.background = "#ef4444";
+        text.textContent = "Weak password";
+        text.style.color = "#ef4444";
+      } else if (strength === 3) {
+        bar.style.width = "70%";
+        bar.style.background = "#facc15";
+        text.textContent = "Medium strength";
+        text.style.color = "#facc15";
+      } else {
+        bar.style.width = "100%";
+        bar.style.background = "#22c55e";
+        text.textContent = "Strong password";
+        text.style.color = "#22c55e";
+      }
+    }
 
-function validatePassword(){
-  const pwd = document.getElementById("password").value;
-  const confirmPwd = document.getElementById("confirm_password").value;
-  const error = document.getElementById("errorMsg");
+    function validatePassword() {
+      const pwd = document.getElementById("password").value;
+      const confirmPwd = document.getElementById("confirm_password").value;
+      const error = document.getElementById("errorMsg");
 
-  if(pwd !== confirmPwd){
-    error.style.display = "block";
-    return false;
-  }
-  error.style.display = "none";
-  return true;
-}
-</script>
+      if (pwd !== confirmPwd) {
+        error.style.display = "block";
+        return false;
+      }
+      error.style.display = "none";
+      return true;
+    }
+  </script>
 
 </body>
+
 </html>
