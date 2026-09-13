@@ -85,6 +85,36 @@ A comprehensive web application designed to assess cardiovascular risk using med
 
 ---
 
+## 🌐 Deployment to Vercel
+
+This project is pre-configured for seamless zero-config deployment on **Vercel**.
+
+### Step 1: Push Changes to GitHub
+Ensure all code changes, `vercel.json`, `api/index.py`, and `requirements.txt` are pushed to your GitHub repository:
+```bash
+git add .
+git commit -m "Configure project for Vercel deployment"
+git push origin main
+```
+
+### Step 2: Import Project in Vercel
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard) and click **Add New > Project**.
+2. Select your GitHub repository: `Praveenofficial12/Ai-Heart-Disease-Risk-Predictor`.
+3. Framework Preset: **Other**.
+4. Root Directory: `./` (leave default).
+
+### Step 3: Configure Environment Variables in Vercel
+Add the following key-value pairs in **Project Settings > Environment Variables**:
+- `FLASK_SECRET_KEY` = your_secret_key
+- `JWT_SECRET` = your_jwt_secret_key
+- `MONGO_URI` = your_mongodb_atlas_connection_string
+- `OPENAI_API_KEY` = (Optional) your_openai_api_key
+
+### Step 4: Deploy!
+Click **Deploy**. Vercel will automatically build the Python serverless function and host your website without errors.
+
+---
+
 ## 🔍 How It Works
 
 1.  **Login/Signup**: Create a secure account to track your heart health journey.

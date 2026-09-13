@@ -38,7 +38,7 @@ ENV/
 Thumbs.db
 
 # Project Specific
-frontend/static/uploads/profile_photos/*
-frontend/static/uploads/reports/*
-!frontend/static/uploads/profile_photos/.gitkeep
-!frontend/static/uploads/reports/.gitkeep
+frontend/static/uploads/*
+!frontend/static/uploads/.gitkeep
+uploads/
+reports/

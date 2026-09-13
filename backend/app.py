@@ -13,10 +13,14 @@ import os, uuid, time
 from flask_mail import Mail
 
 # ---------------- APP CONFIG ----------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frontend", "templates"))
+STATIC_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "frontend", "static"))
+
 app = Flask(
     __name__,
-    template_folder="../frontend/templates",
-    static_folder="../frontend/static"
+    template_folder=TEMPLATE_DIR,
+    static_folder=STATIC_DIR
 )
 
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback_secret_key_123")
@@ -33,12 +37,24 @@ app.config.update(
 mail = Mail(app)
 
 # ---------------- UPLOAD CONFIG ----------------
-BASE_UPLOAD = os.path.abspath("../frontend/static/uploads")
-PROFILE_PHOTO_FOLDER = os.path.join(BASE_UPLOAD, "profile_photos")
-REPORT_FOLDER = os.path.join(BASE_UPLOAD, "reports")
+import tempfile
 
-os.makedirs(PROFILE_PHOTO_FOLDER, exist_ok=True)
-os.makedirs(REPORT_FOLDER, exist_ok=True)
+def get_writable_folder(subfolder):
+    target = os.path.abspath(os.path.join(STATIC_DIR, "uploads", subfolder))
+    try:
+        os.makedirs(target, exist_ok=True)
+        test_file = os.path.join(target, ".write_test")
+        with open(test_file, "w") as f:
+            f.write("test")
+        os.remove(test_file)
+        return target
+    except (OSError, PermissionError):
+        tmp_target = os.path.join(tempfile.gettempdir(), "uploads", subfolder)
+        os.makedirs(tmp_target, exist_ok=True)
+        return tmp_target
+
+PROFILE_PHOTO_FOLDER = get_writable_folder("profile_photos")
+REPORT_FOLDER = get_writable_folder("reports")
 
 app.config["PROFILE_PHOTO_FOLDER"] = PROFILE_PHOTO_FOLDER
 app.config["REPORT_FOLDER"] = REPORT_FOLDER
@@ -295,18 +311,12 @@ def history():
     ).sort("timestamp", -1)
 
     records = []
-
     for r in raw_records:
         records.append({
             "type": r.get("type", "N/A"),
             "data": r.get("data", {}),
-            "risk": r.get("result", {}).get("risk", "Unknown"),
-            "score": r.get("result", {}).get("score", "N/A"),
-            "timestamp": time.strftime(
-                "%d %b %Y, %I:%M %p",
-                time.localtime(r.get("timestamp", time.time()))
-           ),
-            "data": ", ".join(f"{k}: {v}" for k, v in r.get("data", {}).items())
+            "result": r.get("result", {}),
+            "timestamp": r.get("timestamp", time.time())
         })
 
     return render_template("history.html", records=records)

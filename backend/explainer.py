@@ -1,15 +1,21 @@
 import os
-from openai import OpenAI
 
-# Create OpenAI client (API key loaded automatically from env)
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def get_openai_client():
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        return None
+    try:
+        from openai import OpenAI
+        return OpenAI(api_key=api_key)
+    except Exception:
+        return None
 
 def generate_medical_explanation(result: dict) -> str:
     """
     Generate LLM-based medical explanation for heart disease risk
     """
-
-    if not os.getenv("OPENAI_API_KEY"):
+    client = get_openai_client()
+    if not client:
         return "LLM explanation unavailable (API key not configured)."
 
     # Prepare prompt for LLM
@@ -46,3 +52,4 @@ Avoid diagnosis. Educational use only.
 
     except Exception as e:
         return f"LLM explanation failed: {str(e)}"
+

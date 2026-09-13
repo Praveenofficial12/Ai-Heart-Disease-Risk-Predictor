@@ -8,10 +8,7 @@ from dotenv import load_dotenv
 # ---------------- LOAD ENV ----------------
 load_dotenv()
 
-JWT_SECRET = os.getenv("JWT_SECRET")
-
-if not JWT_SECRET:
-    raise ValueError("JWT_SECRET is not set in .env file")
+JWT_SECRET = os.getenv("JWT_SECRET", "default_jwt_secret_key_heart_predictor_2026")
 
 # ---------------- REGISTER ----------------
 def register_user(email, password, phone):

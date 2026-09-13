@@ -1,0 +1,11 @@
+.git
+.gitignore
+venv
+backend/venv
+__pycache__
+*.pyc
+.env
+uploads
+frontend/static/uploads
+reports
+frontend/static/reports
