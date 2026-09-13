@@ -14,6 +14,16 @@ if PROJECT_ROOT not in sys.path:
 
 from app import app as flask_app
 
-# Explicit top-level exports for Vercel Python Runtime
-app = flask_app
-handler = flask_app
+class VercelWSGIMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        path = environ.get('PATH_INFO', '')
+        if path.startswith('/api/index'):
+            environ['PATH_INFO'] = path[10:] or '/'
+        return self.app(environ, start_response)
+
+# Top-level application exports for Vercel Python Runtime
+app = VercelWSGIMiddleware(flask_app)
+handler = app
